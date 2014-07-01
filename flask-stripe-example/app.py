@@ -21,8 +21,6 @@ taxamo_api = taxamo.api.ApiApi(taxamo.swagger.ApiClient(apiKey=os.environ['TAXAM
 
 @app.route('/')
 def index():
-
-
     #simplify billing country information
     if 'billing_country_code' not in session:
         ip_data = taxamo_api.locateGivenIP(request.remote_addr)
@@ -77,8 +75,10 @@ def charge():
             'transaction_lines': [{'amount': 5, 'custom_id': 'line1'}]
         }})
         amount = resp.transaction.total_amount
+        if resp.transaction.tax_country_code != session['billing_country_code']:
+            return redirect('/wrong_card?code=' + token.card.country)
 
-    except taxamo.error.ValidationError: #we might need to dive into the
+    except taxamo.error.ValidationError: #we might need to dive into the error details
         return redirect('/wrong_card?code=' + token.card.country)
 
     customer = stripe.Customer.create(
