@@ -1,18 +1,20 @@
-== Taxamo, Stripe & Flask ==
+## Taxamo, Stripe & Flask
 
 This guide enhances [Stripe's Flask guide](https://stripe.com/docs/checkout/guides/flask) to support Taxamo tax calculation
-and transaction confirmation.
+and transaction confirmation and to serve as an example for integration with Python apps.
+
+*Complete source codes for this example are located in `flask-stripe-example` directory for `taxamo-python`.*
 
 It assumes that some details for a customer are known/set - billing country and a customer's name.
 
 As Stripe and Flask are already installed, we just need to install taxamo Python bindings. 
-To do so, just go to taxamo-python source directory and type:
+To do so, just go to `taxamo-python` source directory and type:
 
 ```
 sudo python setup.py install
 ```
 
-=== Setting up taxamo API ===
+### Setting up taxamo API
 
 To access taxamo API from Python, we need to import appropriate packages in `app.py`:
 
@@ -31,13 +33,13 @@ taxamo_api = taxamo.api.ApiApi(taxamo.swagger.ApiClient(apiKey=os.environ['TAXAM
 
 We're using `TAXAMO_PRIVATE_TOKEN` environment variable. It is recommended to use test token for this tutorial.
 
-We will also be using sessions, so for example we use cookie-based implementation:
+We will also be using sessions, so for example we use cookie-based implementation (please remember to update secret_key to a different value):
 
 ```
 app.secret_key = '\xa7Ca\xc5|w\xf6\x9a\x9a\xae\xa6\x87\xce\xf8\xa8\x82\xd7\xea\x96Kz\x9a\xf4\xae'
 ```
 
-=== Pre-calculating tax ===
+### Pre-calculating tax
 
 Before we proceed with the transaction, we should present the actual price to the customer. We can use customer's IP
  address to guess their country, but we need to provide them with ability to alter that information.
@@ -71,7 +73,7 @@ def index():
 ```
 
 First, if the billing country is not set, we guess it from IP address using `taxamo_api.locateGivenIP`. Next we calculate 
-tax, forcing customer's billing country for a VAT rate.
+tax, forcing customer's billing country for a VAT rate as we don't know the credit card number BIN/country of issue.
 
 We can also present the customer with tax rate, detected country and ability to update billing country to something else
 in `templates/index.html`:
@@ -156,7 +158,7 @@ def utility_processor():
 ```
 
 
-=== Payment and Taxamo transaction storage ===
+### Payment and Taxamo transaction storage
 
 Once the payment has been initiated by the user and Stripe.js has collected credit card details.
 
@@ -210,9 +212,9 @@ def charge():
     return render_template('charge.html', amount=int(amount*100))
 ```
 
-As we don't have access to BIN number earlier in this approach (Stripe.js popup form takes care of credit card number), 
+As we don't have access to credit card country earlier in this approach (Stripe.js popup form takes care of credit card number), 
 we need to make sure, that the new piece of evidence hasn't changed the tax country. If the form would be embedded
-in our HTML file, we might read the CC BIN and propagate it to taxamo using `taxamo.js`. 
+in our HTML file, we might read the credit card's BIN and propagate it to taxamo using `taxamo.js`. 
 
 ```
 @app.route('/wrong_card')
@@ -240,7 +242,7 @@ to update `templates/charge.html`:
 {% endblock %}
 ```
 
-== Running the sample ==
+## Running the sample
 
 With all the changes applied, we can run the code:
  
