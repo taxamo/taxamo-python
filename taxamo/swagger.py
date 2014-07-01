@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Wordnik.com's Swagger generic API client. This client handles the client-
+"""Taxamo Swagger generic API client. This client handles the client-
 server communication, and is invariant across implementations. Specifics of
 the methods and models for each application are generated from the Swagger
 templates."""
@@ -115,7 +115,7 @@ class ApiClient:
 
         if type(obj) == type(None):
             return None
-        elif type(obj) in [str, int, long, float, bool]:
+        elif type(obj) in [str, int, long, float, bool, unicode]:
             return obj
         elif type(obj) == list:
             return [self.sanitizeForSerialization(subObj) for subObj in obj]
