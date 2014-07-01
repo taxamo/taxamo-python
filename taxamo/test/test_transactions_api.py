@@ -25,16 +25,16 @@ class TaxamoTransactionsApiTest(TaxamoTest):
         self.assertFalse(resp.transaction.key is None)
         self.assertEqual(resp.transaction.countries.detected.code, "IE")
         self.assertEqual(resp.transaction.amount, 300)
-        self.assertEqual(resp.transaction.tax_amount, 46.2)
-        self.assertEqual(resp.transaction.total_amount, 346.2)
+        self.assertEqual(resp.transaction.tax_amount, 44.7)
+        self.assertEqual(resp.transaction.total_amount, 344.7)
         self.assertEqual(resp.transaction.status, 'N')
 
         resp = self.api.getTransaction(resp.transaction.key)
 
         self.assertFalse(resp.transaction.key is None)
         self.assertEqual(resp.transaction.amount, 300)
-        self.assertEqual(resp.transaction.tax_amount, 46.2)
-        self.assertEqual(resp.transaction.total_amount, 346.2)
+        self.assertEqual(resp.transaction.tax_amount, 44.7)
+        self.assertEqual(resp.transaction.total_amount, 344.7)
         self.assertEqual(resp.transaction.status, 'N')
         self.assertEqual(resp.transaction.evidence.by_billing.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.by_ip.resolved_country_code, "IE")
@@ -56,8 +56,8 @@ class TaxamoTransactionsApiTest(TaxamoTest):
 
         self.assertEqual(resp.transaction.status, 'N')
         self.assertEqual(resp.transaction.amount, 70)
-        self.assertEqual(resp.transaction.tax_amount, 8.68)
-        self.assertEqual(resp.transaction.total_amount, 78.68)
+        self.assertEqual(resp.transaction.tax_amount, 8.08)
+        self.assertEqual(resp.transaction.total_amount, 78.08)
 
         resp = self.api.getTransaction(resp.transaction.key)
 
@@ -67,8 +67,8 @@ class TaxamoTransactionsApiTest(TaxamoTest):
 
         self.assertEqual(resp.transaction.status, 'N')
         self.assertEqual(resp.transaction.amount, 70)
-        self.assertEqual(resp.transaction.tax_amount, 8.68)
-        self.assertEqual(resp.transaction.total_amount, 78.68)
+        self.assertEqual(resp.transaction.tax_amount, 8.08)
+        self.assertEqual(resp.transaction.total_amount, 78.08)
         self.assertEqual(resp.transaction.evidence.by_billing.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.by_ip.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.forced.resolved_country_code, "FR")
@@ -88,16 +88,16 @@ class TaxamoTransactionsApiTest(TaxamoTest):
         self.assertFalse(resp.transaction.key is None)
         self.assertEqual(resp.transaction.status, 'C')
         self.assertEqual(resp.transaction.amount, 700)
-        self.assertEqual(resp.transaction.tax_amount, 86.8)
-        self.assertEqual(resp.transaction.total_amount, 786.8)
+        self.assertEqual(resp.transaction.tax_amount, 80.8)
+        self.assertEqual(resp.transaction.total_amount, 780.8)
 
         resp = self.api.getTransaction(resp.transaction.key)
 
         self.assertFalse(resp.transaction.key is None)
         self.assertEqual(resp.transaction.status, 'C')
         self.assertEqual(resp.transaction.amount, 700)
-        self.assertEqual(resp.transaction.tax_amount, 86.8)
-        self.assertEqual(resp.transaction.total_amount, 786.8)
+        self.assertEqual(resp.transaction.tax_amount, 80.8)
+        self.assertEqual(resp.transaction.total_amount, 780.8)
         self.assertEqual(resp.transaction.evidence.by_billing.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.by_ip.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.forced.resolved_country_code, "FR")

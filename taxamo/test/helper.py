@@ -1,5 +1,5 @@
 TEST_TOKEN='SamplePrivateTestKey1'
-TEST_ADDRESS='http://localhost:3007'
+TEST_ADDRESS='https://preprod.taxamo.com'
 
 import taxamo.swagger
 import taxamo.api
