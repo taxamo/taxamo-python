@@ -239,3 +239,11 @@ to update `templates/charge.html`:
 <h2>Thanks, you paid <strong>$ {{ format_price(amount/100) }}</strong>!</h2>
 {% endblock %}
 ```
+
+== Running the sample ==
+
+With all the changes applied, we can run the code:
+ 
+```
+PUBLISHABLE_KEY=pk_test_wlmUwh5iKQSAaesWKFrQX7oj SECRET_KEY=sk_test_F1lO6aFaLncuLd8AAkUEgjBw TAXAMO_PRIVATE_TOKEN='SamplePrivateTestKey1' python app.py
+```
