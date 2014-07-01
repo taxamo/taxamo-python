@@ -1,15 +1,48 @@
 {% extends "layout.html" %}
 {% block content %}
-<form action="/charge" method="post">
+<form action="/set_country" method="POST">
     <article>
         <label>
-            <span>Amount is $5.00</span>
-        </label>
-    </article>
+            <span>Amount is <b>${{ format_price(total_amount) }}</b></span>,
 
+            {% if tax_rate %}
+               <span>VAT rate is <b>{{ format_price(tax_rate) }}%</b></span>,
+            {% endif %}
+            <span>Detected country is: {{ ip_country_code }}</span>,
+            {% if tax_rate %}
+                <span>TAX country is: {{ tax_country_code }}</span>,
+            {% endif %}
+            <span>Billing country is:
+                <select name="billing_country_code">
+                    {% for country in countries %}
+                        <option value="{{ country.code }}"
+                                {% if country.code == billing_country_code %}
+                                    selected="1"
+                                {% endif %}
+                                >{{ country.code }} - {{ country.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Update</button>
+            </span>
+
+            {% if billing_country_code != ip_country_code %}
+                <h5>Warning</h5>
+                <ul>
+                    <li>Billing country code set to: <b>{{ billing_country_code }}</b></li>
+                    <li>Computer's country code detected as from: <b>{{ ip_country_code }}</b></li>
+                </ul>
+                <p>Tax calculated for:  <b>{{ billing_country_code }}</b>, but credit card issued in <b>{{billing_country_code}}</b> will need to be used.</p>
+            {% endif %}
+        </label>
+
+    </article>
+</form>
+
+
+<form action="/charge" method="post">
     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
             data-key="{{ key }}"
             data-description="A Flask Charge"
-            data-amount="500"></script>
+            data-amount="{{ format_int(total_amount * 100)}}"></script>
 </form>
 {% endblock %}
