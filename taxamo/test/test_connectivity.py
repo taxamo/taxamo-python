@@ -104,8 +104,6 @@ class TaxamoApiConnectivityTest(TaxamoTest):
                 }})
         self.assertEqual(resp.transaction.countries.detected.code, "IE")
         self.assertEqual(resp.transaction.amount, 300)
-        self.assertEqual(resp.transaction.tax_amount, 44.7)
-        self.assertEqual(resp.transaction.total_amount, 344.7)
 
 
 

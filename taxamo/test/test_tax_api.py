@@ -25,15 +25,15 @@ class TaxamoTaxApiTest(TaxamoTest):
                 }})
         self.assertEqual(resp.transaction.countries.detected.code, "IE")
         self.assertEqual(resp.transaction.amount, 300)
-        self.assertEqual(resp.transaction.tax_amount, 44.7)
-        self.assertEqual(resp.transaction.total_amount, 344.7)
+        self.assertEqual(resp.transaction.tax_amount, 46.2)
+        self.assertEqual(resp.transaction.total_amount, 346.2)
 
         self.assertEqual(resp.transaction.transaction_lines[0].custom_id, 'line1')
         self.assertEqual(resp.transaction.transaction_lines[0].tax_rate, 19.6)
         self.assertEqual(resp.transaction.transaction_lines[0].tax_amount, 39.2)
         self.assertEqual(resp.transaction.transaction_lines[1].custom_id, 'line2')
-        self.assertEqual(resp.transaction.transaction_lines[1].tax_rate, 5.5)
-        self.assertEqual(resp.transaction.transaction_lines[1].tax_amount, 5.5)
+        self.assertEqual(resp.transaction.transaction_lines[1].tax_rate, 7)
+        self.assertEqual(resp.transaction.transaction_lines[1].tax_amount, 7)
 
     def test_simple_calculate(self):
         resp = self.api.calculateSimpleTax(currency_code='USD',
@@ -44,12 +44,12 @@ class TaxamoTaxApiTest(TaxamoTest):
 
         self.assertEqual(resp.transaction.tax_country_code, 'FR')
         self.assertEqual(resp.transaction.amount, 100)
-        self.assertEqual(resp.transaction.tax_amount, 5.5)
-        self.assertEqual(resp.transaction.total_amount, 105.5)
+        self.assertEqual(resp.transaction.tax_amount, 7)
+        self.assertEqual(resp.transaction.total_amount, 107)
 
-        self.assertEqual(resp.transaction.transaction_lines[0].tax_rate, 5.5)
-        self.assertEqual(resp.transaction.transaction_lines[0].tax_rate, 5.5)
-        self.assertEqual(resp.transaction.transaction_lines[0].total_amount, 105.5)
+        self.assertEqual(resp.transaction.transaction_lines[0].tax_rate, 7)
+        self.assertEqual(resp.transaction.transaction_lines[0].tax_rate, 7)
+        self.assertEqual(resp.transaction.transaction_lines[0].total_amount, 107)
 
     def test_validate_tax_number(self):
 
