@@ -16,6 +16,7 @@ class TaxamoTransactionsApiTest(TaxamoTest):
                     'buyer_ip': '127.0.0.1',
                     'billing_country_code': 'IE',
                     'force_country_code': 'FR',
+                    'order_date': '2014-06-01',
                     'transaction_lines': [{'amount': 200,
                                            'custom_id': 'line1'},
                                           {'amount': 100,
