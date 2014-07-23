@@ -1,1 +1,6 @@
+=== 0.0.2 Minor updates for BETA
+
+ * remove buyer_email field
+ * add 2003 rules support in evidence and country detection
+
 === 0.0.1 Initial version

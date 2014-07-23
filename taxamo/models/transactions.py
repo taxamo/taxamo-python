@@ -33,7 +33,6 @@ class Transactions:
             'force_country_code': 'str',
             'tax_amount': 'number',
             'tax_timezone': 'str',
-            'buyer_email': 'str',
             'original_transaction_key': 'str',
             'test': 'bool',
             'status': 'str',
@@ -89,8 +88,6 @@ class Transactions:
         self.tax_amount = None # number
         #Timezone name for tax transaction.
         self.tax_timezone = None # str
-        #Buyer's declared email address.
-        self.buyer_email = None # str
         #Use data and evidence from original transaction. Tax will be re-calculated, but evidence won't be re-checked.
         self.original_transaction_key = None # str
         #Was this transaction created in test mode?

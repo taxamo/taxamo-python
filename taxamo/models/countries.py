@@ -21,32 +21,35 @@ class Countries:
 
     def __init__(self):
         self.swaggerTypes = {
-            'by_ip': 'country_schema',
-            'forced': 'country_schema',
-            'guessed_from_ip': 'country_schema',
-            'by_billing': 'country_schema',
-            'by_cc': 'country_schema',
+            'by_2003_rules': 'country_schema',
+            'detected': 'country_schema',
             'by_tax_number': 'country_schema',
+            'by_cc': 'country_schema',
+            'by_ip': 'country_schema',
             'by_token': 'country_schema',
-            'detected': 'country_schema'
+            'by_billing': 'country_schema',
+            'guessed_from_ip': 'country_schema',
+            'forced': 'country_schema'
 
         }
 
 
-        #Country detected by IP
-        self.by_ip = None # country_schema
-        #Country forced by paramters
-        self.forced = None # country_schema
-        #Country guessed from IP due to lack of other evidence
-        self.guessed_from_ip = None # country_schema
-        #Country detected by billing country code
-        self.by_billing = None # country_schema
-        #Country detected by credit card number prefix
-        self.by_cc = None # country_schema
-        #Country detected from EU TAX number
-        self.by_tax_number = None # country_schema
-        #Country detected from SMS token
-        self.by_token = None # country_schema
+        #Used when merchant uses 2003 EU VAT rules.
+        self.by_2003_rules = None # country_schema
         #Country detected from other evidence
         self.detected = None # country_schema
+        #Country detected from EU TAX number
+        self.by_tax_number = None # country_schema
+        #Country detected by credit card number prefix
+        self.by_cc = None # country_schema
+        #Country detected by IP
+        self.by_ip = None # country_schema
+        #Country detected from SMS token
+        self.by_token = None # country_schema
+        #Country detected by billing country code
+        self.by_billing = None # country_schema
+        #Country guessed from IP due to lack of other evidence
+        self.guessed_from_ip = None # country_schema
+        #Country forced by paramters
+        self.forced = None # country_schema
         

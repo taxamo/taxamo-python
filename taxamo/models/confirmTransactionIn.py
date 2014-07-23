@@ -21,11 +21,11 @@ class ConfirmTransactionIn:
 
     def __init__(self):
         self.swaggerTypes = {
-            'transaction': 'input_transaction'
+            'transaction': 'input_transaction_update'
 
         }
 
 
         #Transaction.
-        self.transaction = None # input_transaction
+        self.transaction = None # input_transaction_update
         
