@@ -21,6 +21,7 @@ class Transaction_lines:
 
     def __init__(self):
         self.swaggerTypes = {
+            'custom_fields': 'list[custom_fields]',
             'additional_currencies': 'additional_currencies',
             'custom_id': 'str',
             'deducted_tax_amount': 'number',
@@ -43,6 +44,8 @@ class Transaction_lines:
         }
 
 
+        #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
+        self.custom_fields = None # list[custom_fields]
         #Additional currency information - can be used to receive additional information about invoice in another currency.
         self.additional_currencies = None # additional_currencies
         #Custom id, provided by ecommerce software.

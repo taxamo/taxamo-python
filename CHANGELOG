@@ -1,3 +1,7 @@
+=== 0.0.3 Minor updates for BETA
+ * add custom fields support for transaction adn transaction lines
+ * add captureTransaction (currently works with Stripe pre-captured CC token, stored in custom_fields)
+
 === 0.0.2 Minor updates for BETA
 
  * remove buyer_email field

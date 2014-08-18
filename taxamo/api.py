@@ -127,6 +127,51 @@ class ApiApi(object):
 
         
 
+    def capturePayment(self, key, **kwargs):
+        """Capture payment
+
+        Args:
+            key, str: Transaction key. (required)
+
+            
+
+        Returns: capturePaymentOut
+        """
+
+        allParams = ['key']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method capturePayment" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/transactions/{key}/payments/capture'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('key' in params):
+            replacement = str(self.apiClient.toPathValue(params['key']))
+            resourcePath = resourcePath.replace('{' + 'key' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'capturePaymentOut')
+        return responseObject
+        
+
+        
+
     def createTransaction(self, body, **kwargs):
         """Store transaction
 

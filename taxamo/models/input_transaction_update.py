@@ -24,6 +24,7 @@ class Input_transaction_update:
             'invoice_date': 'str',
             'invoice_address': 'invoice_address',
             'buyer_credit_card_prefix': 'str',
+            'custom_fields': 'list[custom_fields]',
             'additional_currencies': 'additional_currencies',
             'buyer_tax_number': 'str',
             'custom_id': 'str',
@@ -54,6 +55,8 @@ class Input_transaction_update:
         self.invoice_address = None # invoice_address
         #Buyer's credit card prefix.
         self.buyer_credit_card_prefix = None # str
+        #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
+        self.custom_fields = None # list[custom_fields]
         #Additional currency information - can be used to receive additional information about invoice in another currency.
         self.additional_currencies = None # additional_currencies
         # Buyer's tax number - EU VAT number for example.

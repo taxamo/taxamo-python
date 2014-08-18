@@ -21,6 +21,7 @@ class Input_transaction_line:
 
     def __init__(self):
         self.swaggerTypes = {
+            'custom_fields': 'list[custom_fields]',
             'custom_id': 'str',
             'product_type': 'str',
             'quantity': 'number',
@@ -36,6 +37,8 @@ class Input_transaction_line:
         }
 
 
+        #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
+        self.custom_fields = None # list[custom_fields]
         #Custom id, provided by ecommerce software.
         self.custom_id = None # str
         #Product type, according to dictionary /dictionaries/product_types
