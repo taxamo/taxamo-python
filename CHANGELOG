@@ -1,3 +1,6 @@
+=== 0.0.4 Finish BETA
+ * update url to point to https://api.taxamo.com
+
 === 0.0.3 Minor updates for BETA
  * add custom fields support for transaction adn transaction lines
  * add captureTransaction (currently works with Stripe pre-captured CC token, stored in custom_fields)

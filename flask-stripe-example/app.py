@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.secret_key = '\xa7Ca\xc5|w\xf6\x9a\x9a\xae\xa6\x87\xce\xf8\xa8\x82\xd7\xea\x96Kz\x9a\xf4\xae'
 
 taxamo_api = taxamo.api.ApiApi(taxamo.swagger.ApiClient(apiKey=os.environ['TAXAMO_PRIVATE_TOKEN'],
-                                                        apiServer='https://beta.taxamo.com'))
+                                                        apiServer='https://api.taxamo.com'))
 
 @app.route('/')
 def index():

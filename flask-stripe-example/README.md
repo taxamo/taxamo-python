@@ -28,7 +28,7 @@ Initialize the API:
 
 ```
 taxamo_api = taxamo.api.ApiApi(taxamo.swagger.ApiClient(apiKey=os.environ['TAXAMO_PRIVATE_TOKEN'],
-                                                        apiServer='https://beta.taxamo.com'))
+                                                        apiServer='https://api.taxamo.com'))
 ```
 
 We're using `TAXAMO_PRIVATE_TOKEN` environment variable. It is recommended to use test token for this tutorial.

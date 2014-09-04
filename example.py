@@ -3,7 +3,7 @@ import taxamo.swagger
 
 print "Calculating tax"
 
-apiClient = taxamo.swagger.ApiClient("SamplePrivateTestKey1", "https://beta.taxamo.com")
+apiClient = taxamo.swagger.ApiClient("SamplePrivateTestKey1", "https://api.taxamo.com")
 api = taxamo.api.ApiApi(apiClient)
 
 resp = api.calculateTax(
