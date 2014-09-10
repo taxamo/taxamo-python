@@ -29,7 +29,7 @@ if sys.version_info < (3, 0):
 setup(
     name='taxamo',
     cmdclass={'build_py': build_py},
-    version='0.0.4',
+    version='0.0.5',
     description='Taxamo python bindings',
     author='Taxamo',
     author_email='support@taxamo.com',
