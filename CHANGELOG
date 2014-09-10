@@ -1,3 +1,7 @@
+=== 0.0.5 Minor updates
+ * add buyer_email field back
+ * update regression tests
+
 === 0.0.4 Finish BETA
  * update url to point to https://api.taxamo.com
 

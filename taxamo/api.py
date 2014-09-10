@@ -78,9 +78,9 @@ class ApiApi(object):
         """List payments
 
         Args:
-            limit, number: Max record count (no more than 100, defaults to 10). (optional)
+            limit, str: Max record count (no more than 100, defaults to 10). (optional)
 
-            offset, number: How many records need to be skipped, defaults to 0. (optional)
+            offset, str: How many records need to be skipped, defaults to 0. (optional)
 
             key, str: Transaction key. (required)
 

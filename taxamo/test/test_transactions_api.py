@@ -17,6 +17,7 @@ class TaxamoTransactionsApiTest(TaxamoTest):
                     'billing_country_code': 'IE',
                     'force_country_code': 'FR',
                     'order_date': '2014-06-01',
+                    'buyer_email': 'test-python@taxamo.com',
                     'transaction_lines': [{'amount': 200,
                                            'custom_id': 'line1'},
                                           {'amount': 100,
@@ -26,20 +27,21 @@ class TaxamoTransactionsApiTest(TaxamoTest):
         self.assertFalse(resp.transaction.key is None)
         self.assertEqual(resp.transaction.countries.detected.code, "IE")
         self.assertEqual(resp.transaction.amount, 300)
-        self.assertEqual(resp.transaction.tax_amount, 46.2)
-        self.assertEqual(resp.transaction.total_amount, 346.2)
+        self.assertEqual(resp.transaction.tax_amount, 47)
+        self.assertEqual(resp.transaction.total_amount, 347)
         self.assertEqual(resp.transaction.status, 'N')
 
         resp = self.api.getTransaction(resp.transaction.key)
 
         self.assertFalse(resp.transaction.key is None)
         self.assertEqual(resp.transaction.amount, 300)
-        self.assertEqual(resp.transaction.tax_amount, 46.2)
-        self.assertEqual(resp.transaction.total_amount, 346.2)
+        self.assertEqual(resp.transaction.tax_amount, 47)
+        self.assertEqual(resp.transaction.total_amount, 347)
         self.assertEqual(resp.transaction.status, 'N')
         self.assertEqual(resp.transaction.evidence.by_billing.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.by_ip.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.forced.resolved_country_code, "FR")
+        self.assertEqual(resp.transaction.buyer_email, 'test-python@taxamo.com')
 
         resp = self.api.updateTransaction(resp.transaction.key, {
             'transaction':
@@ -57,8 +59,8 @@ class TaxamoTransactionsApiTest(TaxamoTest):
 
         self.assertEqual(resp.transaction.status, 'N')
         self.assertEqual(resp.transaction.amount, 70)
-        self.assertEqual(resp.transaction.tax_amount, 8.68)
-        self.assertEqual(resp.transaction.total_amount, 78.68)
+        self.assertEqual(resp.transaction.tax_amount, 8.8)
+        self.assertEqual(resp.transaction.total_amount, 78.8)
 
         resp = self.api.getTransaction(resp.transaction.key)
 
@@ -68,8 +70,8 @@ class TaxamoTransactionsApiTest(TaxamoTest):
 
         self.assertEqual(resp.transaction.status, 'N')
         self.assertEqual(resp.transaction.amount, 70)
-        self.assertEqual(resp.transaction.tax_amount, 8.68)
-        self.assertEqual(resp.transaction.total_amount, 78.68)
+        self.assertEqual(resp.transaction.tax_amount, 8.8)
+        self.assertEqual(resp.transaction.total_amount, 78.8)
         self.assertEqual(resp.transaction.evidence.by_billing.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.by_ip.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.forced.resolved_country_code, "FR")
@@ -89,16 +91,16 @@ class TaxamoTransactionsApiTest(TaxamoTest):
         self.assertFalse(resp.transaction.key is None)
         self.assertEqual(resp.transaction.status, 'C')
         self.assertEqual(resp.transaction.amount, 700)
-        self.assertEqual(resp.transaction.tax_amount, 86.8)
-        self.assertEqual(resp.transaction.total_amount, 786.8)
+        self.assertEqual(resp.transaction.tax_amount, 88)
+        self.assertEqual(resp.transaction.total_amount, 788)
 
         resp = self.api.getTransaction(resp.transaction.key)
 
         self.assertFalse(resp.transaction.key is None)
         self.assertEqual(resp.transaction.status, 'C')
         self.assertEqual(resp.transaction.amount, 700)
-        self.assertEqual(resp.transaction.tax_amount, 86.8)
-        self.assertEqual(resp.transaction.total_amount, 786.8)
+        self.assertEqual(resp.transaction.tax_amount, 88)
+        self.assertEqual(resp.transaction.total_amount, 788)
         self.assertEqual(resp.transaction.evidence.by_billing.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.by_ip.resolved_country_code, "IE")
         self.assertEqual(resp.transaction.evidence.forced.resolved_country_code, "FR")

@@ -30,6 +30,7 @@ class Input_transaction_update:
             'custom_id': 'str',
             'tax_country_code': 'str',
             'force_country_code': 'str',
+            'buyer_email': 'str',
             'original_transaction_key': 'str',
             'buyer_ip': 'str',
             'invoice_place': 'str',
@@ -67,6 +68,8 @@ class Input_transaction_update:
         self.tax_country_code = None # str
         #Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation.
         self.force_country_code = None # str
+        #Buyer's declared email address.
+        self.buyer_email = None # str
         #Use data and evidence from original transaction. Tax will be re-calculated, but evidence won't be re-checked.
         self.original_transaction_key = None # str
         #IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).
