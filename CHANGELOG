@@ -1,3 +1,6 @@
+=== 0.0.6
+ * add createRefund operation to API client
+
 === 0.0.5 Minor updates
  * add buyer_email field back
  * update regression tests

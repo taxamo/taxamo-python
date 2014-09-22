@@ -27,6 +27,53 @@ class ApiApi(object):
 
     
 
+    def createRefund(self, key, body, **kwargs):
+        """Create a refund
+
+        Args:
+            key, str: Transaction key. (required)
+
+            body, createRefundIn: Input (required)
+
+            
+
+        Returns: createRefundOut
+        """
+
+        allParams = ['key', 'body']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method createRefund" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/transactions/{key}/refunds'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('key' in params):
+            replacement = str(self.apiClient.toPathValue(params['key']))
+            resourcePath = resourcePath.replace('{' + 'key' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'createRefundOut')
+        return responseObject
+        
+
+        
+
     def createPayment(self, key, body, **kwargs):
         """Register a payment
 
