@@ -1,6 +1,6 @@
 TEST_TOKEN='SamplePrivateTestKey1'
-TEST_ADDRESS='https://api.taxamo.com'
-#TEST_ADDRESS='http://localhost:3007'
+#TEST_ADDRESS='https://api.taxamo.com'
+TEST_ADDRESS='http://localhost:3007'
 
 import taxamo.swagger
 import taxamo.api
