@@ -37,9 +37,11 @@ class Transaction_lines:
             'amount': 'number',
             'id': 'number',
             'refunded_total_amount': 'number',
+            'informative': 'bool',
             'description': 'str',
             'product_code': 'str',
-            'supply_date': 'str'
+            'supply_date': 'str',
+            'tax_name': 'str'
 
         }
 
@@ -52,7 +54,7 @@ class Transaction_lines:
         self.custom_id = None # str
         #Deducted tax amount, calculated by taxmo.
         self.deducted_tax_amount = None # number
-        #Product type, according to dictionary /dictionaries/product_types
+        #Product type, according to dictionary /dictionaries/product_types. 
         self.product_type = None # str
         #Quantity Defaults to 1.
         self.quantity = None # number
@@ -64,7 +66,7 @@ class Transaction_lines:
         self.unit_of_measure = None # str
         #Total amount. Required if amount is not provided.
         self.total_amount = None # number
-        #Tax rate, calculated by taxamo.
+        #Tax rate, calculated by taxamo. Can be overwritten when informative field is true.
         self.tax_rate = None # number
         #Refunded tax amount, calculated by taxmo.
         self.refunded_tax_amount = None # number
@@ -76,10 +78,14 @@ class Transaction_lines:
         self.id = None # number
         #Refunded total amount, calculated by taxmo.
         self.refunded_total_amount = None # number
+        #If the line is provided for informative purposes. Such line can have :tax-rate and/or :tax-name - if not, API will calculate missing values according to product type and country of residence.
+        self.informative = None # bool
         #Line contents description.
         self.description = None # str
         #Internal product code, used for invoicing for example.
         self.product_code = None # str
         #Date of supply in yyyy-MM-dd format.
         self.supply_date = None # str
+        #Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
+        self.tax_name = None # str
         

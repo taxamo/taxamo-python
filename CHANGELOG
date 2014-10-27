@@ -1,3 +1,10 @@
+=== 0.0.7
+ * informative mode for transaction lines
+ * new settlement operations
+ * new refund operations
+ * ability to query for tax supported countries only
+ * update regression tests
+
 === 0.0.6
  * add createRefund operation to API client
 

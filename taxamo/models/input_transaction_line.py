@@ -28,11 +28,14 @@ class Input_transaction_line:
             'unit_price': 'number',
             'unit_of_measure': 'str',
             'total_amount': 'number',
+            'tax_rate': 'number',
             'line_key': 'str',
             'amount': 'number',
+            'informative': 'bool',
             'description': 'str',
             'product_code': 'str',
-            'supply_date': 'str'
+            'supply_date': 'str',
+            'tax_name': 'str'
 
         }
 
@@ -41,7 +44,7 @@ class Input_transaction_line:
         self.custom_fields = None # list[custom_fields]
         #Custom id, provided by ecommerce software.
         self.custom_id = None # str
-        #Product type, according to dictionary /dictionaries/product_types
+        #Product type, according to dictionary /dictionaries/product_types. 
         self.product_type = None # str
         #Quantity Defaults to 1.
         self.quantity = None # number
@@ -51,14 +54,20 @@ class Input_transaction_line:
         self.unit_of_measure = None # str
         #Total amount. Required if amount is not provided.
         self.total_amount = None # number
+        #Tax rate, calculated by taxamo. Can be overwritten when informative field is true.
+        self.tax_rate = None # number
         #Generated line key.
         self.line_key = None # str
         #Amount. Required if total amount is not provided.
         self.amount = None # number
+        #If the line is provided for informative purposes. Such line can have :tax-rate and/or :tax-name - if not, API will calculate missing values according to product type and country of residence.
+        self.informative = None # bool
         #Line contents description.
         self.description = None # str
         #Internal product code, used for invoicing for example.
         self.product_code = None # str
         #Date of supply in yyyy-MM-dd format.
         self.supply_date = None # str
+        #Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
+        self.tax_name = None # str
         

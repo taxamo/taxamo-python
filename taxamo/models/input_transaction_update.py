@@ -60,7 +60,7 @@ class Input_transaction_update:
         self.custom_fields = None # list[custom_fields]
         #Additional currency information - can be used to receive additional information about invoice in another currency.
         self.additional_currencies = None # additional_currencies
-        # Buyer's tax number - EU VAT number for example.
+        # Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
         self.buyer_tax_number = None # str
         #Custom identifier provided upon transaction creation.
         self.custom_id = None # str
@@ -98,6 +98,6 @@ class Input_transaction_update:
         self.supply_date = None # str
         #Transaction lines.
         self.transaction_lines = None # list[input_transaction_line]
-        #Order date in yyyy-MM-dd format.
+        #Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
         self.order_date = None # str
         

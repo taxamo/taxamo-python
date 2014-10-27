@@ -11,9 +11,6 @@ class TaxamoStatsApiTest(TaxamoTest):
         resp = self.api.getTransactionsStats('2099-04-01', '2099-06-30',
                                              interval='month')
 
-        self.assertEqual(resp.by_status.N[0].day, '2099-04-01')
-        self.assertEqual(resp.by_status.N[1].day, '2099-05-01')
-        self.assertEqual(resp.by_status.N[2].day, '2099-06-01')
         self.assertEqual(resp.by_status.C[0].day, '2099-04-01')
         self.assertEqual(resp.by_status.C[1].day, '2099-05-01')
         self.assertEqual(resp.by_status.C[2].day, '2099-06-01')

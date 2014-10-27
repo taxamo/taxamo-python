@@ -570,9 +570,9 @@ class ApiApi(object):
         Args:
             buyer_credit_card_prefix, str: Buyer's credit card prefix. (optional)
 
-            buyer_tax_number, str:  Buyer's tax number - EU VAT number for example. (optional)
+            buyer_tax_number, str:  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly. (optional)
 
-            product_type, str: Product type, according to dictionary /dictionaries/product_types (optional)
+            product_type, str: Product type, according to dictionary /dictionaries/product_types.  (optional)
 
             force_country_code, str: Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation. (optional)
 
@@ -590,7 +590,8 @@ class ApiApi(object):
 
             currency_code, str: Currency code for transaction - e.g. EUR. (required)
 
-            order_date, str: Order date in yyyy-MM-dd format. (optional)
+            order_date, str: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed.
+   Default value is current date and time. When using public token, the default value is used. (optional)
 
             
 
@@ -976,35 +977,43 @@ class ApiApi(object):
 
         
 
-    def getSettlementReport(self, quarter, **kwargs):
-        """Settlement report
+    def getDailySettlementStats(self, interval, date_from, date_to, **kwargs):
+        """Settlement stats over time
 
         Args:
-            quarter, str: Quarter in yyyy-MM format. (required)
+            interval, str: Interval type - day, week, month. (required)
+
+            date_from, str: Date from in yyyy-MM format. (required)
+
+            date_to, str: Date to in yyyy-MM format. (required)
 
             
 
-        Returns: getSettlementReportOut
+        Returns: getDailySettlementStatsOut
         """
 
-        allParams = ['quarter']
+        allParams = ['interval', 'date_from', 'date_to']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
             if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method getSettlementReport" % key)
+                raise TypeError("Got an unexpected keyword argument '%s' to method getDailySettlementStats" % key)
             params[key] = val
         del params['kwargs']
 
-        resourcePath = '/api/v1/reports/settlement'
+        resourcePath = '/api/v1/stats/settlement/daily'
         resourcePath = resourcePath.replace('{format}', 'json')
         method = 'GET'
 
         queryParams = {}
         headerParams = {}
 
-        if ('quarter' in params):
-            queryParams['quarter'] = self.apiClient.toPathValue(params['quarter'])
+        if ('interval' in params):
+            queryParams['interval'] = self.apiClient.toPathValue(params['interval'])
+        if ('date_from' in params):
+            queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
+        if ('date_to' in params):
+            queryParams['date_to'] = self.apiClient.toPathValue(params['date_to'])
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,
@@ -1013,7 +1022,54 @@ class ApiApi(object):
         if not response:
             return None
 
-        responseObject = self.apiClient.deserialize(response, 'getSettlementReportOut')
+        responseObject = self.apiClient.deserialize(response, 'getDailySettlementStatsOut')
+        return responseObject
+        
+
+        
+
+    def getRefunds(self, **kwargs):
+        """Fetch refunds
+
+        Args:
+            moss_country_code, str: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
+
+            date_from, str: Take only refunds issued at or after the date. Format: yyyy-MM-dd (optional)
+
+            
+
+        Returns: getRefundsOut
+        """
+
+        allParams = ['moss_country_code', 'date_from']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method getRefunds" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/settlement/refunds'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('moss_country_code' in params):
+            queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
+        if ('date_from' in params):
+            queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'getRefundsOut')
         return responseObject
         
 
@@ -1025,6 +1081,8 @@ class ApiApi(object):
         Args:
             format, str: Output format. 'csv' value is accepted as well (optional)
 
+            moss_country_code, str: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
+
             quarter, str: Quarter in yyyy-MM format. (required)
 
             
@@ -1032,7 +1090,7 @@ class ApiApi(object):
         Returns: getSettlementOut
         """
 
-        allParams = ['format', 'quarter']
+        allParams = ['format', 'moss_country_code', 'quarter']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1050,6 +1108,8 @@ class ApiApi(object):
 
         if ('format' in params):
             queryParams['format'] = self.apiClient.toPathValue(params['format'])
+        if ('moss_country_code' in params):
+            queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
         if ('quarter' in params):
             replacement = str(self.apiClient.toPathValue(params['quarter']))
             resourcePath = resourcePath.replace('{' + 'quarter' + '}',
@@ -1063,6 +1123,55 @@ class ApiApi(object):
             return None
 
         responseObject = self.apiClient.deserialize(response, 'getSettlementOut')
+        return responseObject
+        
+
+        
+
+    def getSettlementSummary(self, quarter, **kwargs):
+        """Fetch settlement summary
+
+        Args:
+            moss_country_code, str: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
+
+            quarter, str: Quarter in yyyy-MM format. (required)
+
+            
+
+        Returns: getSettlementSummaryOut
+        """
+
+        allParams = ['moss_country_code', 'quarter']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method getSettlementSummary" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/settlement/summary/{quarter}'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('moss_country_code' in params):
+            queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
+        if ('quarter' in params):
+            replacement = str(self.apiClient.toPathValue(params['quarter']))
+            resourcePath = resourcePath.replace('{' + 'quarter' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'getSettlementSummaryOut')
         return responseObject
         
 
@@ -1236,12 +1345,14 @@ class ApiApi(object):
         """Countries
 
         Args:
+            tax_supported, bool: Should only countries with tax supported be listed? (optional)
+
             
 
         Returns: getCountriesDictOut
         """
 
-        allParams = []
+        allParams = ['tax_supported']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1257,6 +1368,8 @@ class ApiApi(object):
         queryParams = {}
         headerParams = {}
 
+        if ('tax_supported' in params):
+            queryParams['tax_supported'] = self.apiClient.toPathValue(params['tax_supported'])
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,

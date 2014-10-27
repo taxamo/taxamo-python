@@ -26,6 +26,7 @@ class Report:
             'country_name': 'str',
             'country_code': 'str',
             'tax_amount': 'number',
+            'skip_moss': 'bool',
             'currency_code': 'str'
 
         }
@@ -41,6 +42,8 @@ class Report:
         self.country_code = None # str
         #Tax amount
         self.tax_amount = None # number
+        #If true, this line should not be entered into MOSS and is provided for informative purposes only. For example because the country is the same as MOSS registration country and merchant country.
+        self.skip_moss = None # 
         #Three-letter ISO currency code.
         self.currency_code = None # str
         

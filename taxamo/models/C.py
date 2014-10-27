@@ -31,9 +31,9 @@ class C:
 
         #Date for stats in yyyy-MM-dd'T'hh:mm:ss'Z' format.
         self.day_raw = None # str
-        #Transaction count
+        #Transaction count.
         self.value = None # number
-        #Transaction status (C or N)
+        #Transaction status (C or N).
         self.status = None # str
         #Date for stats in yyyy-MM-dd format.
         self.day = None # str
