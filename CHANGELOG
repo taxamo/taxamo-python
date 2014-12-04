@@ -1,3 +1,7 @@
+=== 0.0.8
+ * add freeform address field for invoice data
+ * add tax number country code field for country configuration
+
 === 0.0.7
  * informative mode for transaction lines
  * new settlement operations

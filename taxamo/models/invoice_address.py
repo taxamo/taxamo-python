@@ -21,6 +21,7 @@ class Invoice_address:
 
     def __init__(self):
         self.swaggerTypes = {
+            'freeform_address': 'str',
             'building_number': 'str',
             'street_name': 'str',
             'address_detail': 'str',
@@ -32,6 +33,8 @@ class Invoice_address:
         }
 
 
+        #Freeform address. Use when structured data is not available. Will be used in SAF-MOSS file if other fields are not provided.
+        self.freeform_address = None # str
         #Building number.
         self.building_number = None # str
         # Street name.

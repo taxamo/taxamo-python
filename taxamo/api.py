@@ -590,8 +590,7 @@ class ApiApi(object):
 
             currency_code, str: Currency code for transaction - e.g. EUR. (required)
 
-            order_date, str: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed.
-   Default value is current date and time. When using public token, the default value is used. (optional)
+            order_date, str: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used. (optional)
 
             
 
@@ -1028,20 +1027,22 @@ class ApiApi(object):
 
         
 
-    def getRefunds(self, **kwargs):
+    def getRefunds(self, date_from, **kwargs):
         """Fetch refunds
 
         Args:
+            format, str: Output format. 'csv' value is accepted as well (optional)
+
             moss_country_code, str: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
 
-            date_from, str: Take only refunds issued at or after the date. Format: yyyy-MM-dd (optional)
+            date_from, str: Take only refunds issued at or after the date. Format: yyyy-MM-dd (required)
 
             
 
         Returns: getRefundsOut
         """
 
-        allParams = ['moss_country_code', 'date_from']
+        allParams = ['format', 'moss_country_code', 'date_from']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1057,6 +1058,8 @@ class ApiApi(object):
         queryParams = {}
         headerParams = {}
 
+        if ('format' in params):
+            queryParams['format'] = self.apiClient.toPathValue(params['format'])
         if ('moss_country_code' in params):
             queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
         if ('date_from' in params):

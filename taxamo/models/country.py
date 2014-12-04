@@ -28,6 +28,7 @@ class Country:
             'cca2': 'str',
             'callingCode': 'list[str]',
             'cca3': 'str',
+            'tax_number_country_code': 'str',
             'codenum': 'str',
             'tax_supported': 'bool'
 
@@ -48,6 +49,8 @@ class Country:
         self.callingCode = None # list[str]
         #Three letter ISO country code.
         self.cca3 = None # str
+        #VAT number country code. Important for Greece.
+        self.tax_number_country_code = None # str
         #Country ISO 3-digit code.
         self.codenum = None # str
         #True if tax calculation supported for this country.

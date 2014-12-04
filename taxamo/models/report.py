@@ -43,7 +43,7 @@ class Report:
         #Tax amount
         self.tax_amount = None # number
         #If true, this line should not be entered into MOSS and is provided for informative purposes only. For example because the country is the same as MOSS registration country and merchant country.
-        self.skip_moss = None # 
+        self.skip_moss = None # bool
         #Three-letter ISO currency code.
         self.currency_code = None # str
         
