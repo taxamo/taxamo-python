@@ -150,6 +150,38 @@ class TaxamoTransactionsApiTest(TaxamoTest):
 
         self.assertEqual(resp.success, True)
 
+    def test_evidence_fields(self):
+        resp = self.api.createTransaction(
+            {
+                'transaction': {
+                    'currency_code': 'USD',
+                    'evidence': {
+                        'other_commercially_relevant_info': {'evidence_value': 'GR'},
+                        'self_declaration': {'evidence_value': 'GR'}
+                    },
+                    'billing_country_code': 'GR',
+                    'order_date': '2014-06-01',
+                    'buyer_email': 'test-python@taxamo.com',
+                    'transaction_lines': [{'amount': 200,
+                                           'custom_id': 'line1'},
+                                          {'amount': 100,
+                                           'product_type': 'e-book',
+                                           'custom_id': 'line2'}]
+                }})
+        self.assertFalse(resp.transaction.key is None)
+        self.assertEqual(resp.transaction.countries.detected.code, "GR")
+        self.assertEqual(resp.transaction.countries.other_commercially_relevant_info.code, "GR")
+        self.assertEqual(resp.transaction.countries.self_declaration.code, "GR")
+        self.assertEqual(resp.transaction.status, 'N')
+
+        resp = self.api.getTransaction(resp.transaction.key)
+
+        self.assertFalse(resp.transaction.key is None)
+        self.assertEqual(resp.transaction.status, 'N')
+        self.assertEqual(resp.transaction.evidence.by_billing.resolved_country_code, "GR")
+        self.assertEqual(resp.transaction.evidence.other_commercially_relevant_info.resolved_country_code, "GR")
+        self.assertEqual(resp.transaction.evidence.self_declaration.resolved_country_code, "GR")
+
     def test_custom_fields(self):
         resp = self.api.createTransaction(
             {

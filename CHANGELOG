@@ -1,3 +1,6 @@
+=== 0.0.9
+ * add new transaction evidence fields
+
 === 0.0.8
  * add freeform address field for invoice data
  * add tax number country code field for country configuration
