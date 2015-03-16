@@ -3,7 +3,7 @@
 
 # The MIT License
 #
-# Copyright (c) 2010-2011 Taxamo (http://Taxamo.com)
+# Copyright (c) 2010-2011 Stripe (http://Stripe.com)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
