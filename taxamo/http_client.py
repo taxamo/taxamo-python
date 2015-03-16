@@ -1,4 +1,4 @@
-# Excellent http client taken from https://raw.githubusercontent.com/Taxamo/Taxamo-python/master/Taxamo/http_client.py
+# Excellent http client taken from https://raw.githubusercontent.com/stripe/stripe-python/master/stripe/http_client.py
 # Kudos
 
 # The MIT License
