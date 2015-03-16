@@ -22,13 +22,19 @@ class CreateRefundOut:
     def __init__(self):
         self.swaggerTypes = {
             'total_amount': 'number',
-            'tax_amount': 'number'
+            'tax_amount': 'number',
+            'refunded_total_amount': 'number',
+            'refunded_tax_amount': 'number'
 
         }
 
 
-        #Total amount, including tax, to be refunded. Either amount or total amount is required.
+        #Total amount, including tax, that was refunded in this call.
         self.total_amount = None # number
-        #Calculated total amount.
+        #Calculated tax amount, that was refunded in this call.
         self.tax_amount = None # number
+        #Total amount, including tax, that was refunded for this line.
+        self.refunded_total_amount = None # number
+        #Total tax amount, that was refunded for this line.
+        self.refunded_tax_amount = None # number
         

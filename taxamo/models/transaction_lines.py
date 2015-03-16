@@ -66,7 +66,7 @@ class Transaction_lines:
         self.unit_of_measure = None # str
         #Total amount. Required if amount is not provided.
         self.total_amount = None # number
-        #Tax rate, calculated by taxamo. Can be overwritten when informative field is true.
+        #Tax rate, calculated by taxamo. Must be provided when informative field is true.
         self.tax_rate = None # number
         #Refunded tax amount, calculated by taxmo.
         self.refunded_tax_amount = None # number
@@ -78,7 +78,7 @@ class Transaction_lines:
         self.id = None # number
         #Refunded total amount, calculated by taxmo.
         self.refunded_total_amount = None # number
-        #If the line is provided for informative purposes. Such line can have :tax-rate and/or :tax-name - if not, API will calculate missing values according to product type and country of residence.
+        #If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
         self.informative = None # bool
         #Line contents description.
         self.description = None # str

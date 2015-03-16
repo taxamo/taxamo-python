@@ -35,7 +35,7 @@ class CalculateTaxLocationOut:
 
         #Two-letter ISO country code, e.g. FR. This code applies to detected/set country for transaction, but can be set using manual mode.
         self.tax_country_code = None # str
-        #True if the transaction deducted from tax and no tax is applied. Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode.
+        #If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example.
         self.tax_deducted = None # bool
         #Is tax calculation supported for a detected tax location?
         self.tax_supported = None # bool

@@ -54,13 +54,13 @@ class Input_transaction_line:
         self.unit_of_measure = None # str
         #Total amount. Required if amount is not provided.
         self.total_amount = None # number
-        #Tax rate, calculated by taxamo. Can be overwritten when informative field is true.
+        #Tax rate, calculated by taxamo. Must be provided when informative field is true.
         self.tax_rate = None # number
         #Generated line key.
         self.line_key = None # str
         #Amount. Required if total amount is not provided.
         self.amount = None # number
-        #If the line is provided for informative purposes. Such line can have :tax-rate and/or :tax-name - if not, API will calculate missing values according to product type and country of residence.
+        #If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
         self.informative = None # bool
         #Line contents description.
         self.description = None # str

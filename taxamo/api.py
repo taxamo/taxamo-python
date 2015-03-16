@@ -456,6 +456,8 @@ class ApiApi(object):
 
             order_date_from, str: Order date from in yyyy-MM-dd format. (optional)
 
+            key_or_custom_id, str: Taxamo provided transaction key or custom id (optional)
+
             offset, integer: Offset (optional)
 
             filter_text, str: Filtering expression (optional)
@@ -473,7 +475,7 @@ class ApiApi(object):
         Returns: listTransactionsOut
         """
 
-        allParams = ['statuses', 'sort_reverse', 'tax_country_code', 'order_date_from', 'offset', 'filter_text', 'format', 'order_date_to', 'currency_code', 'limit']
+        allParams = ['statuses', 'sort_reverse', 'tax_country_code', 'order_date_from', 'key_or_custom_id', 'offset', 'filter_text', 'format', 'order_date_to', 'currency_code', 'limit']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -497,6 +499,8 @@ class ApiApi(object):
             queryParams['tax_country_code'] = self.apiClient.toPathValue(params['tax_country_code'])
         if ('order_date_from' in params):
             queryParams['order_date_from'] = self.apiClient.toPathValue(params['order_date_from'])
+        if ('key_or_custom_id' in params):
+            queryParams['key_or_custom_id'] = self.apiClient.toPathValue(params['key_or_custom_id'])
         if ('offset' in params):
             queryParams['offset'] = self.apiClient.toPathValue(params['offset'])
         if ('filter_text' in params):
@@ -582,7 +586,7 @@ class ApiApi(object):
 
             total_amount, number: Total amount. Required if amount is not provided. (optional)
 
-            tax_deducted, bool: True if the transaction deducted from tax and no tax is applied. Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode. (optional)
+            tax_deducted, bool: If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example. (optional)
 
             amount, number: Amount. Required if total amount is not provided. (optional)
 
@@ -883,7 +887,7 @@ class ApiApi(object):
         
 
     def getSettlementStatsByCountry(self, date_from, date_to, **kwargs):
-        """Settlement stats per country
+        """Settlement by country
 
         Args:
             date_from, str: Date from in yyyy-MM format. (required)
@@ -930,7 +934,7 @@ class ApiApi(object):
         
 
     def getSettlementStatsByTaxationType(self, date_from, date_to, **kwargs):
-        """Settlement stats per taxation type
+        """Settlement by tax type
 
         Args:
             date_from, str: Date from in yyyy-MM format. (required)
@@ -971,57 +975,6 @@ class ApiApi(object):
             return None
 
         responseObject = self.apiClient.deserialize(response, 'getSettlementStatsByTaxationTypeOut')
-        return responseObject
-        
-
-        
-
-    def getDailySettlementStats(self, interval, date_from, date_to, **kwargs):
-        """Settlement stats over time
-
-        Args:
-            interval, str: Interval type - day, week, month. (required)
-
-            date_from, str: Date from in yyyy-MM format. (required)
-
-            date_to, str: Date to in yyyy-MM format. (required)
-
-            
-
-        Returns: getDailySettlementStatsOut
-        """
-
-        allParams = ['interval', 'date_from', 'date_to']
-
-        params = locals()
-        for (key, val) in params['kwargs'].iteritems():
-            if key not in allParams:
-                raise TypeError("Got an unexpected keyword argument '%s' to method getDailySettlementStats" % key)
-            params[key] = val
-        del params['kwargs']
-
-        resourcePath = '/api/v1/stats/settlement/daily'
-        resourcePath = resourcePath.replace('{format}', 'json')
-        method = 'GET'
-
-        queryParams = {}
-        headerParams = {}
-
-        if ('interval' in params):
-            queryParams['interval'] = self.apiClient.toPathValue(params['interval'])
-        if ('date_from' in params):
-            queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
-        if ('date_to' in params):
-            queryParams['date_to'] = self.apiClient.toPathValue(params['date_to'])
-        postData = (params['body'] if 'body' in params else None)
-
-        response = self.apiClient.callAPI(resourcePath, method, queryParams,
-                                          postData, headerParams)
-
-        if not response:
-            return None
-
-        responseObject = self.apiClient.deserialize(response, 'getDailySettlementStatsOut')
         return responseObject
         
 
@@ -1132,7 +1085,7 @@ class ApiApi(object):
         
 
     def getSettlementSummary(self, quarter, **kwargs):
-        """Fetch settlement summary
+        """Fetch summary
 
         Args:
             moss_country_code, str: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
