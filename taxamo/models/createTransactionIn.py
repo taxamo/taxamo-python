@@ -27,7 +27,7 @@ class CreateTransactionIn:
         }
 
 
-        #Use manual mode, bypassing country detection. Only allowed with private token.
+        #Use manual mode, bypassing country detection. Only allowed with private token. This flag allows to use original_transaction_key field
         self.manual_mode = None # bool
         #Transaction.
         self.transaction = None # input_transaction

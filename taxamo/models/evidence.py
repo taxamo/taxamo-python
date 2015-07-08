@@ -21,41 +21,41 @@ class Evidence:
 
     def __init__(self):
         self.swaggerTypes = {
-            'by_2003_rules': 'evidence_schema',
-            'by_payment_method': 'evidence_schema',
-            'by_tax_number': 'evidence_schema',
-            'self_declaration': 'evidence_schema',
-            'by_cc': 'evidence_schema',
-            'by_ip': 'evidence_schema',
             'by_token': 'evidence_schema',
-            'by_billing': 'evidence_schema',
+            'by_cc': 'evidence_schema',
+            'by_2003_rules': 'evidence_schema',
+            'forced': 'evidence_schema',
+            'by_payment_method': 'evidence_schema',
+            'by_ip': 'evidence_schema',
             'guessed_from_ip': 'evidence_schema',
             'other_commercially_relevant_info': 'evidence_schema',
-            'forced': 'evidence_schema'
+            'by_billing': 'evidence_schema',
+            'by_tax_number': 'evidence_schema',
+            'self_declaration': 'evidence_schema'
 
         }
 
 
-        #Used when merchant uses 2003 EU VAT rules.
-        self.by_2003_rules = None # evidence_schema
-        #Country detected by payment method.
-        self.by_payment_method = None # evidence_schema
-        #Country detected from EU TAX number
-        self.by_tax_number = None # evidence_schema
-        #Self declared country as evidence. Requires merchant setting to be active.
-        self.self_declaration = None # evidence_schema
-        #Country detected by credit card number prefix
-        self.by_cc = None # evidence_schema
-        #Country detected by IP
-        self.by_ip = None # evidence_schema
         #Country detected from SMS token
         self.by_token = None # evidence_schema
-        #Country detected by billing country code
-        self.by_billing = None # evidence_schema
+        #Country detected by credit card number prefix
+        self.by_cc = None # evidence_schema
+        #Used when merchant uses 2003 EU VAT rules.
+        self.by_2003_rules = None # evidence_schema
+        #Country forced by paramters
+        self.forced = None # evidence_schema
+        #Country detected by payment method.
+        self.by_payment_method = None # evidence_schema
+        #Country detected by IP
+        self.by_ip = None # evidence_schema
         #Country guessed from IP due to lack of other evidence
         self.guessed_from_ip = None # evidence_schema
         #Additional evidence held by the merchant. Can be used only with a private token.
         self.other_commercially_relevant_info = None # evidence_schema
-        #Country forced by paramters
-        self.forced = None # evidence_schema
+        #Country detected by billing country code
+        self.by_billing = None # evidence_schema
+        #Country detected from EU TAX number
+        self.by_tax_number = None # evidence_schema
+        #Self declared country as evidence. Requires merchant setting to be active.
+        self.self_declaration = None # evidence_schema
         

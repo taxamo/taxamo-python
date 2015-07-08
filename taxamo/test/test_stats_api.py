@@ -34,11 +34,3 @@ class TaxamoStatsApiTest(TaxamoTest):
         resp = self.api.getSettlementStatsByCountry('2099-04-01', '2099-06-30')
 
         self.assertEqual(resp.by_country, [])
-
-    def test_settlement_stats_by_taxation_type(self):
-        resp = self.api.getSettlementStatsByTaxationType('2099-04-01', '2099-06-30')
-
-        self.assertEqual(resp.by_taxation_type.taxed_count, 0)
-        self.assertEqual(resp.by_taxation_type.deducted_count, 0)
-        self.assertEqual(resp.by_taxation_type.transactions_count, 0)
-

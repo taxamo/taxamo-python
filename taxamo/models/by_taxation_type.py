@@ -23,7 +23,9 @@ class By_taxation_type:
         self.swaggerTypes = {
             'taxed_count': 'number',
             'deducted_count': 'number',
-            'transactions_count': 'number'
+            'transactions_count': 'number',
+            'eu_b2b': 'integer',
+            'eu_taxed': 'integer'
 
         }
 
@@ -34,4 +36,8 @@ class By_taxation_type:
         self.deducted_count = None # number
         #Total number of transactions
         self.transactions_count = None # number
+        #Total EU B2B transaction count.
+        self.eu_b2b = None # integer
+        #Total EU Taxed transaction count.
+        self.eu_taxed = None # integer
         

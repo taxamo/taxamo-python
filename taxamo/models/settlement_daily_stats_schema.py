@@ -21,26 +21,35 @@ class Settlement_daily_stats_schema:
 
     def __init__(self):
         self.swaggerTypes = {
-            'day_raw': 'str',
             'b2c': 'integer',
-            'b2b': 'integer',
-            'count': 'integer',
             'untaxed': 'integer',
+            'eu_taxed': 'integer',
+            'eu_b2b': 'integer',
+            'count': 'integer',
+            'eu_total': 'integer',
+            'day_raw': 'str',
+            'b2b': 'integer',
             'day': 'str'
 
         }
 
 
-        #Date for stats in yyyy-MM-dd'T'hh:mm:ss'Z' format.
-        self.day_raw = None # str
         #B2C transaction count.
         self.b2c = None # integer
-        #B2B transaction count.
-        self.b2b = None # integer
-        #Total transaction count.
-        self.count = None # integer
         #Untaxed transaction count.
         self.untaxed = None # integer
+        #Total EU Taxed transaction count.
+        self.eu_taxed = None # integer
+        #Total EU B2B transaction count.
+        self.eu_b2b = None # integer
+        #Total transaction count.
+        self.count = None # integer
+        #Total EU transaction count.
+        self.eu_total = None # integer
+        #Date for stats in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+        self.day_raw = None # str
+        #B2B transaction count.
+        self.b2b = None # integer
         #Date for stats in yyyy-MM-dd format.
         self.day = None # str
         

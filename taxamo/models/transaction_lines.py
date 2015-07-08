@@ -21,71 +21,71 @@ class Transaction_lines:
 
     def __init__(self):
         self.swaggerTypes = {
-            'custom_fields': 'list[custom_fields]',
-            'additional_currencies': 'additional_currencies',
-            'custom_id': 'str',
-            'deducted_tax_amount': 'number',
             'product_type': 'str',
-            'quantity': 'number',
-            'tax_amount': 'number',
+            'deducted_tax_amount': 'number',
+            'supply_date': 'str',
+            'id': 'number',
             'unit_price': 'number',
             'unit_of_measure': 'str',
-            'total_amount': 'number',
-            'tax_rate': 'number',
-            'refunded_tax_amount': 'number',
+            'quantity': 'number',
+            'custom_fields': 'list[custom_fields]',
             'line_key': 'str',
-            'amount': 'number',
-            'id': 'number',
-            'refunded_total_amount': 'number',
-            'informative': 'bool',
-            'description': 'str',
+            'tax_name': 'str',
             'product_code': 'str',
-            'supply_date': 'str',
-            'tax_name': 'str'
+            'amount': 'number',
+            'custom_id': 'str',
+            'informative': 'bool',
+            'tax_amount': 'number',
+            'tax_rate': 'number',
+            'additional_currencies': 'additional_currencies',
+            'total_amount': 'number',
+            'refunded_tax_amount': 'number',
+            'description': 'str',
+            'refunded_total_amount': 'number'
 
         }
 
 
-        #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
-        self.custom_fields = None # list[custom_fields]
-        #Additional currency information - can be used to receive additional information about invoice in another currency.
-        self.additional_currencies = None # additional_currencies
-        #Custom id, provided by ecommerce software.
-        self.custom_id = None # str
-        #Deducted tax amount, calculated by taxmo.
-        self.deducted_tax_amount = None # number
         #Product type, according to dictionary /dictionaries/product_types. 
         self.product_type = None # str
-        #Quantity Defaults to 1.
-        self.quantity = None # number
-        #Tax amount, calculated by taxamo.
-        self.tax_amount = None # number
+        #Deducted tax amount, calculated by taxmo.
+        self.deducted_tax_amount = None # number
+        #Date of supply in yyyy-MM-dd format.
+        self.supply_date = None # str
+        #Generated id.
+        self.id = None # number
         #Unit price.
         self.unit_price = None # number
         #Unit of measure.
         self.unit_of_measure = None # str
-        #Total amount. Required if amount is not provided.
-        self.total_amount = None # number
-        #Tax rate, calculated by taxamo. Must be provided when informative field is true.
-        self.tax_rate = None # number
-        #Refunded tax amount, calculated by taxmo.
-        self.refunded_tax_amount = None # number
+        #Quantity Defaults to 1.
+        self.quantity = None # number
+        #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
+        self.custom_fields = None # list[custom_fields]
         #Generated line key.
         self.line_key = None # str
-        #Amount. Required if total amount is not provided.
-        self.amount = None # number
-        #Generated id.
-        self.id = None # number
-        #Refunded total amount, calculated by taxmo.
-        self.refunded_total_amount = None # number
-        #If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
-        self.informative = None # bool
-        #Line contents description.
-        self.description = None # str
-        #Internal product code, used for invoicing for example.
-        self.product_code = None # str
-        #Date of supply in yyyy-MM-dd format.
-        self.supply_date = None # str
         #Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
         self.tax_name = None # str
+        #Internal product code, used for invoicing for example.
+        self.product_code = None # str
+        #Amount. Required if total amount is not provided.
+        self.amount = None # number
+        #Custom id, provided by ecommerce software.
+        self.custom_id = None # str
+        #If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
+        self.informative = None # bool
+        #Tax amount, calculated by taxamo.
+        self.tax_amount = None # number
+        #Tax rate, calculated by taxamo. Must be provided when informative field is true.
+        self.tax_rate = None # number
+        #Additional currency information - can be used to receive additional information about invoice in another currency.
+        self.additional_currencies = None # additional_currencies
+        #Total amount. Required if amount is not provided.
+        self.total_amount = None # number
+        #Refunded tax amount, calculated by taxmo.
+        self.refunded_tax_amount = None # number
+        #Line contents description.
+        self.description = None # str
+        #Refunded total amount, calculated by taxmo.
+        self.refunded_total_amount = None # number
         

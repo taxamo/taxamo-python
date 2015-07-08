@@ -21,38 +21,41 @@ class Country:
 
     def __init__(self):
         self.swaggerTypes = {
-            'ccn3': 'str',
-            'name': 'str',
-            'code': 'str',
             'code_long': 'str',
-            'cca2': 'str',
-            'callingCode': 'list[str]',
-            'cca3': 'str',
-            'tax_number_country_code': 'str',
             'codenum': 'str',
-            'tax_supported': 'bool'
+            'currency': 'list[str]',
+            'tax_supported': 'bool',
+            'name': 'str',
+            'ccn3': 'str',
+            'cca3': 'str',
+            'callingCode': 'list[str]',
+            'tax_number_country_code': 'str',
+            'code': 'str',
+            'cca2': 'str'
 
         }
 
 
-        #Country ISO 3-digit code.
-        self.ccn3 = None # str
-        #Country name.
-        self.name = None # str
-        #Two letter ISO country code.
-        self.code = None # str
         #Three letter ISO country code.
         self.code_long = None # str
-        #Two letter ISO country code.
-        self.cca2 = None # str
-        #List of phone number calling codes.
-        self.callingCode = None # list[str]
-        #Three letter ISO country code.
-        self.cca3 = None # str
-        #VAT number country code. Important for Greece.
-        self.tax_number_country_code = None # str
         #Country ISO 3-digit code.
         self.codenum = None # str
+        #List of currencies.
+        self.currency = None # list[str]
         #True if tax calculation supported for this country.
         self.tax_supported = None # bool
+        #Country name.
+        self.name = None # str
+        #Country ISO 3-digit code.
+        self.ccn3 = None # str
+        #Three letter ISO country code.
+        self.cca3 = None # str
+        #List of phone number calling codes.
+        self.callingCode = None # list[str]
+        #VAT number country code. Important for Greece.
+        self.tax_number_country_code = None # str
+        #Two letter ISO country code.
+        self.code = None # str
+        #Two letter ISO country code.
+        self.cca2 = None # str
         
