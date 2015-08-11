@@ -2,6 +2,10 @@
 
 ## Installation
 
+To install from PyPi, run:
+  
+    pip install taxamo
+   
 To install from source, run:
 
     python setup.py install
