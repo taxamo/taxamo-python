@@ -12,7 +12,7 @@ To install from source, run:
 
 ## Documentation
 
-Please see http://www.taxamo.com/documentation/ for the most up-to-date documentation.
+Please see http://www.taxamo.com/doc/ for the most up-to-date documentation.
 
 ## Testing
 
