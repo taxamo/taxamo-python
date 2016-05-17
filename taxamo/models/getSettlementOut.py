@@ -32,12 +32,12 @@ class GetSettlementOut:
 
         #Settlement report.
         self.report = None # list[report]
-        #Quarter start date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+        #Period start date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
         self.start_date = None # str
-        #Quarter end date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+        #Period end date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
         self.end_date = None # str
         #If the quarter isn't closed yet, tax amount is indicative, as we cannot determine FX rate or all transactions yet.
         self.indicative = None # bool
-        #Date of ECB FX rate used for conversions in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+        #Date of ECB FX rate used for conversions in yyyy-MM-dd'T'hh:mm:ss'Z' format. Applies to tax regions where 
         self.fx_rate_date = None # str
         

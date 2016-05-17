@@ -21,29 +21,35 @@ class Report:
 
     def __init__(self):
         self.swaggerTypes = {
-            'tax_rate': 'number',
-            'amount': 'number',
-            'country_name': 'str',
-            'country_code': 'str',
-            'tax_amount': 'number',
+            'currency_code': 'str',
             'skip_moss': 'bool',
-            'currency_code': 'str'
+            'country_code': 'str',
+            'tax_region': 'str',
+            'country_subdivision': 'str',
+            'amount': 'number',
+            'tax_amount': 'number',
+            'tax_rate': 'number',
+            'country_name': 'str'
 
         }
 
 
-        #Tax rate
-        self.tax_rate = None # number
-        #Amount w/o tax
-        self.amount = None # number
-        #Country name
-        self.country_name = None # str
-        #Two letter ISO country code.
-        self.country_code = None # str
-        #Tax amount
-        self.tax_amount = None # number
-        #If true, this line should not be entered into MOSS and is provided for informative purposes only. For example because the country is the same as MOSS registration country and merchant country.
-        self.skip_moss = None # bool
         #Three-letter ISO currency code.
         self.currency_code = None # str
+        #If true, this line should not be entered into MOSS and is provided for informative purposes only. For example because the country is the same as MOSS registration country and merchant country.
+        self.skip_moss = None # bool
+        #Two letter ISO country code.
+        self.country_code = None # str
+        #Tax region key
+        self.tax_region = None # str
+        #Country subdivision (e.g. state or provice or county)
+        self.country_subdivision = None # str
+        #Amount w/o tax
+        self.amount = None # number
+        #Tax amount
+        self.tax_amount = None # number
+        #Tax rate
+        self.tax_rate = None # number
+        #Country name
+        self.country_name = None # str
         

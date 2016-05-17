@@ -29,12 +29,15 @@ class Input_transaction_update:
             'supply_date': 'str',
             'invoice_address': 'invoice_address',
             'verification_token': 'str',
+            'tax_data': 'tax_data_schema',
             'transaction_lines': 'list[input_transaction_line]',
             'buyer_tax_number': 'str',
+            'status': 'str',
             'custom_fields': 'list[custom_fields]',
             'force_country_code': 'str',
             'invoice_number': 'str',
             'order_date': 'str',
+            'customer_id': 'str',
             'buyer_ip': 'str',
             'buyer_email': 'str',
             'original_transaction_key': 'str',
@@ -66,10 +69,14 @@ class Input_transaction_update:
         self.invoice_address = None # invoice_address
         #Verification token
         self.verification_token = None # str
+        #Tax additional information - e.g. US sales tax exemption certificate data.
+        self.tax_data = None # tax_data_schema
         #Transaction lines.
         self.transaction_lines = None # list[input_transaction_line]
         # Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
         self.buyer_tax_number = None # str
+        #Transaction status: 'N' - new, 'C' - confirmed. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default status. Not applicable for update-transaction!.
+        self.status = None # str
         #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
         self.custom_fields = None # list[custom_fields]
         #Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation.
@@ -78,6 +85,8 @@ class Input_transaction_update:
         self.invoice_number = None # str
         #Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
         self.order_date = None # str
+        #Free-form field for storing customer id.
+        self.customer_id = None # str
         #IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).
         self.buyer_ip = None # str
         #Buyer's declared email address.
@@ -96,7 +105,7 @@ class Input_transaction_update:
         self.evidence = None # evidence
         #Transaction description.
         self.description = None # str
-        #True if the transaction deducted from tax and no tax is applied. Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode.
+        #True if the transaction is deducted from tax and no tax is applied (it is untaxed). Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode.
         self.tax_deducted = None # bool
         #Two-letter ISO country code, e.g. FR. This code applies to detected/set country for transaction, but can be set using manual mode.
         self.tax_country_code = None # str

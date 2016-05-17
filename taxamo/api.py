@@ -74,6 +74,51 @@ class ApiApi(object):
 
         
 
+    def listRefunds(self, key, **kwargs):
+        """Get transaction refunds
+
+        Args:
+            key, str: Transaction key. (required)
+
+            
+
+        Returns: listRefundsOut
+        """
+
+        allParams = ['key']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method listRefunds" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/transactions/{key}/refunds'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('key' in params):
+            replacement = str(self.apiClient.toPathValue(params['key']))
+            resourcePath = resourcePath.replace('{' + 'key' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'listRefundsOut')
+        return responseObject
+        
+
+        
+
     def createPayment(self, key, body, **kwargs):
         """Register a payment
 
@@ -261,6 +306,59 @@ class ApiApi(object):
             return None
 
         responseObject = self.apiClient.deserialize(response, 'emailInvoiceOut')
+        return responseObject
+        
+
+        
+
+    def emailRefund(self, key, refund_note_number, body, **kwargs):
+        """Email invoice
+
+        Args:
+            key, str: Transaction key. (required)
+
+            refund_note_number, str: Refund note id. (required)
+
+            body, emailRefundIn: Input (required)
+
+            
+
+        Returns: emailRefundOut
+        """
+
+        allParams = ['key', 'refund_note_number', 'body']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method emailRefund" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/transactions/{key}/invoice/refunds/{refund_note_number}/send_email'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'POST'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('key' in params):
+            replacement = str(self.apiClient.toPathValue(params['key']))
+            resourcePath = resourcePath.replace('{' + 'key' + '}',
+                                                replacement)
+        if ('refund_note_number' in params):
+            replacement = str(self.apiClient.toPathValue(params['refund_note_number']))
+            resourcePath = resourcePath.replace('{' + 'refund_note_number' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'emailRefundOut')
         return responseObject
         
 
@@ -558,11 +656,17 @@ class ApiApi(object):
 
             invoice_number, str: Transaction invoice number. (optional)
 
-            statuses, str: Comma separated list of of transaction statuses. (optional)
+            statuses, str: Comma separated list of of transaction statuses. 'N' - unconfirmed transaction, 'C' - confirmed transaction. (optional)
+
+            original_transaction_key, str: Taxamo provided original transaction key (optional)
 
             order_date_from, str: Order date from in yyyy-MM-dd format. (optional)
 
+            total_amount_greater_than, str: Return only transactions with total amount greater than given number. Transactions with total amount equal to a given number (e.g. 0) are not returned. (optional)
+
             format, str: Output format - supports 'csv' value for this operation. (optional)
+
+            total_amount_less_than, str: Return only transactions with total amount less than a given number. Transactions with total amount equal to a given number (e.g. 1) are not returned. (optional)
 
             tax_country_code, str: Two letter ISO tax country code. (optional)
 
@@ -571,7 +675,7 @@ class ApiApi(object):
         Returns: listTransactionsOut
         """
 
-        allParams = ['filter_text', 'offset', 'key_or_custom_id', 'currency_code', 'order_date_to', 'sort_reverse', 'limit', 'invoice_number', 'statuses', 'order_date_from', 'format', 'tax_country_code']
+        allParams = ['filter_text', 'offset', 'key_or_custom_id', 'currency_code', 'order_date_to', 'sort_reverse', 'limit', 'invoice_number', 'statuses', 'original_transaction_key', 'order_date_from', 'total_amount_greater_than', 'format', 'total_amount_less_than', 'tax_country_code']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -605,10 +709,16 @@ class ApiApi(object):
             queryParams['invoice_number'] = self.apiClient.toPathValue(params['invoice_number'])
         if ('statuses' in params):
             queryParams['statuses'] = self.apiClient.toPathValue(params['statuses'])
+        if ('original_transaction_key' in params):
+            queryParams['original_transaction_key'] = self.apiClient.toPathValue(params['original_transaction_key'])
         if ('order_date_from' in params):
             queryParams['order_date_from'] = self.apiClient.toPathValue(params['order_date_from'])
+        if ('total_amount_greater_than' in params):
+            queryParams['total_amount_greater_than'] = self.apiClient.toPathValue(params['total_amount_greater_than'])
         if ('format' in params):
             queryParams['format'] = self.apiClient.toPathValue(params['format'])
+        if ('total_amount_less_than' in params):
+            queryParams['total_amount_less_than'] = self.apiClient.toPathValue(params['total_amount_less_than'])
         if ('tax_country_code' in params):
             queryParams['tax_country_code'] = self.apiClient.toPathValue(params['tax_country_code'])
         postData = (params['body'] if 'body' in params else None)
@@ -672,9 +782,13 @@ class ApiApi(object):
         Args:
             product_type, str: Product type, according to dictionary /dictionaries/product_types.  (optional)
 
+            invoice_address_city, str: Invoice address/postal_code (optional)
+
             buyer_credit_card_prefix, str: Buyer's credit card prefix. (optional)
 
             currency_code, str: Currency code for transaction - e.g. EUR. (required)
+
+            invoice_address_region, str: Invoice address/region (optional)
 
             unit_price, number: Unit price. (optional)
 
@@ -690,6 +804,8 @@ class ApiApi(object):
 
             billing_country_code, str: Billing two letter ISO country code. (optional)
 
+            invoice_address_postal_code, str: Invoice address/postal_code (optional)
+
             total_amount, number: Total amount. Required if amount is not provided. (optional)
 
             tax_deducted, bool: If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example. (optional)
@@ -699,7 +815,7 @@ class ApiApi(object):
         Returns: calculateSimpleTaxOut
         """
 
-        allParams = ['product_type', 'buyer_credit_card_prefix', 'currency_code', 'unit_price', 'quantity', 'buyer_tax_number', 'force_country_code', 'order_date', 'amount', 'billing_country_code', 'total_amount', 'tax_deducted']
+        allParams = ['product_type', 'invoice_address_city', 'buyer_credit_card_prefix', 'currency_code', 'invoice_address_region', 'unit_price', 'quantity', 'buyer_tax_number', 'force_country_code', 'order_date', 'amount', 'billing_country_code', 'invoice_address_postal_code', 'total_amount', 'tax_deducted']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -717,10 +833,14 @@ class ApiApi(object):
 
         if ('product_type' in params):
             queryParams['product_type'] = self.apiClient.toPathValue(params['product_type'])
+        if ('invoice_address_city' in params):
+            queryParams['invoice_address_city'] = self.apiClient.toPathValue(params['invoice_address_city'])
         if ('buyer_credit_card_prefix' in params):
             queryParams['buyer_credit_card_prefix'] = self.apiClient.toPathValue(params['buyer_credit_card_prefix'])
         if ('currency_code' in params):
             queryParams['currency_code'] = self.apiClient.toPathValue(params['currency_code'])
+        if ('invoice_address_region' in params):
+            queryParams['invoice_address_region'] = self.apiClient.toPathValue(params['invoice_address_region'])
         if ('unit_price' in params):
             queryParams['unit_price'] = self.apiClient.toPathValue(params['unit_price'])
         if ('quantity' in params):
@@ -735,6 +855,8 @@ class ApiApi(object):
             queryParams['amount'] = self.apiClient.toPathValue(params['amount'])
         if ('billing_country_code' in params):
             queryParams['billing_country_code'] = self.apiClient.toPathValue(params['billing_country_code'])
+        if ('invoice_address_postal_code' in params):
+            queryParams['invoice_address_postal_code'] = self.apiClient.toPathValue(params['invoice_address_postal_code'])
         if ('total_amount' in params):
             queryParams['total_amount'] = self.apiClient.toPathValue(params['total_amount'])
         if ('tax_deducted' in params):
@@ -928,6 +1050,57 @@ class ApiApi(object):
             return None
 
         responseObject = self.apiClient.deserialize(response, 'locateGivenIPOut')
+        return responseObject
+        
+
+        
+
+    def getTransactionsStatsByCountry(self, date_from, date_to, **kwargs):
+        """Settlement by country
+
+        Args:
+            global_currency_code, str: Global currency code to use for conversion - in addition to country's currency if rate is available. Conversion is indicative and based on most-recent rate from ECB. (optional)
+
+            date_from, str: Date from in yyyy-MM format. (required)
+
+            date_to, str: Date to in yyyy-MM format. (required)
+
+            
+
+        Returns: getTransactionsStatsByCountryOut
+        """
+
+        allParams = ['global_currency_code', 'date_from', 'date_to']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method getTransactionsStatsByCountry" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/stats/transactions/by_country'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('global_currency_code' in params):
+            queryParams['global_currency_code'] = self.apiClient.toPathValue(params['global_currency_code'])
+        if ('date_from' in params):
+            queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
+        if ('date_to' in params):
+            queryParams['date_to'] = self.apiClient.toPathValue(params['date_to'])
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'getTransactionsStatsByCountryOut')
         return responseObject
         
 
@@ -1129,6 +1302,140 @@ class ApiApi(object):
 
         
 
+    def getEuViesReport(self, eu_country_code, start_month, end_month, **kwargs):
+        """Calculate EU VIES report.
+
+        Args:
+            format, str: Output format. 'xml' and 'csv' values are accepted as well (optional)
+
+            transformation, str: Which transformation should be applied. Please note that transformation will be applied only for xml and csv formats. (optional)
+
+            eu_country_code, str: ISO 2-letter country code which will be used for determining which country is domestic. (required)
+
+            currency_code, str: ISO 3-letter currency code, e.g. EUR or USD. Defaults to the one assigned to MOSS calculations for a given country code. (optional)
+
+            tax_id, str: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. (optional)
+
+            start_month, str: Period start month in yyyy-MM format. (required)
+
+            end_month, str: Period end month in yyyy-MM-dd format. (required)
+
+            fx_date_type, str: Which date should be used for FX. (optional)
+
+            
+
+        Returns: getEuViesReportOut
+        """
+
+        allParams = ['format', 'transformation', 'eu_country_code', 'currency_code', 'tax_id', 'start_month', 'end_month', 'fx_date_type']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method getEuViesReport" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/reports/eu/vies'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('format' in params):
+            queryParams['format'] = self.apiClient.toPathValue(params['format'])
+        if ('transformation' in params):
+            queryParams['transformation'] = self.apiClient.toPathValue(params['transformation'])
+        if ('eu_country_code' in params):
+            queryParams['eu_country_code'] = self.apiClient.toPathValue(params['eu_country_code'])
+        if ('currency_code' in params):
+            queryParams['currency_code'] = self.apiClient.toPathValue(params['currency_code'])
+        if ('tax_id' in params):
+            queryParams['tax_id'] = self.apiClient.toPathValue(params['tax_id'])
+        if ('start_month' in params):
+            queryParams['start_month'] = self.apiClient.toPathValue(params['start_month'])
+        if ('end_month' in params):
+            queryParams['end_month'] = self.apiClient.toPathValue(params['end_month'])
+        if ('fx_date_type' in params):
+            queryParams['fx_date_type'] = self.apiClient.toPathValue(params['fx_date_type'])
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'getEuViesReportOut')
+        return responseObject
+        
+
+        
+
+    def getDomesticSummaryReport(self, country_code, start_month, end_month, **kwargs):
+        """Calculate domestic summary.
+
+        Args:
+            format, str: Output format. 'xml' and 'csv' values are accepted. Default format - json (optional)
+
+            country_code, str: ISO 2-letter country code which will be used for determining which country is domestic. (required)
+
+            currency_code, str: ISO 3-letter currency code, e.g. EUR or USD. Defaults to the one assigned to MOSS calculations for a given country code. (optional)
+
+            start_month, str: Period start month in yyyy-MM format. (required)
+
+            end_month, str: Period end month in yyyy-MM-dd format. (required)
+
+            fx_date_type, str: Which date should be used for FX. (optional)
+
+            
+
+        Returns: getDomesticSummaryReportOut
+        """
+
+        allParams = ['format', 'country_code', 'currency_code', 'start_month', 'end_month', 'fx_date_type']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method getDomesticSummaryReport" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/reports/domestic/summary'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('format' in params):
+            queryParams['format'] = self.apiClient.toPathValue(params['format'])
+        if ('country_code' in params):
+            queryParams['country_code'] = self.apiClient.toPathValue(params['country_code'])
+        if ('currency_code' in params):
+            queryParams['currency_code'] = self.apiClient.toPathValue(params['currency_code'])
+        if ('start_month' in params):
+            queryParams['start_month'] = self.apiClient.toPathValue(params['start_month'])
+        if ('end_month' in params):
+            queryParams['end_month'] = self.apiClient.toPathValue(params['end_month'])
+        if ('fx_date_type' in params):
+            queryParams['fx_date_type'] = self.apiClient.toPathValue(params['fx_date_type'])
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'getDomesticSummaryReportOut')
+        return responseObject
+        
+
+        
+
     def getRefunds(self, date_from, **kwargs):
         """Fetch refunds
 
@@ -1137,6 +1444,8 @@ class ApiApi(object):
 
             moss_country_code, str: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
 
+            tax_region, str: Tax region key, defaults to EU for backwards compatibility. (optional)
+
             date_from, str: Take only refunds issued at or after the date. Format: yyyy-MM-dd (required)
 
             
@@ -1144,7 +1453,7 @@ class ApiApi(object):
         Returns: getRefundsOut
         """
 
-        allParams = ['format', 'moss_country_code', 'date_from']
+        allParams = ['format', 'moss_country_code', 'tax_region', 'date_from']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1164,6 +1473,8 @@ class ApiApi(object):
             queryParams['format'] = self.apiClient.toPathValue(params['format'])
         if ('moss_country_code' in params):
             queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
+        if ('tax_region' in params):
+            queryParams['tax_region'] = self.apiClient.toPathValue(params['tax_region'])
         if ('date_from' in params):
             queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
         postData = (params['body'] if 'body' in params else None)
@@ -1186,18 +1497,28 @@ class ApiApi(object):
         Args:
             format, str: Output format. 'csv' value is accepted as well (optional)
 
-            moss_country_code, str: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
+            moss_country_code, str: MOSS country code, used to determine currency/region. If ommited, merchant default setting is used. Deprecated: please use tax-country-code. (optional)
 
-            moss_tax_id, str: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. (optional)
+            tax_country_code, str: Tax entity country code, used to determine currency/region.  (optional)
 
-            quarter, str: Quarter in yyyy-MM format. (required)
+            currency_code, str: ISO 3-letter currency code, e.g. EUR or USD. If provided, all amounts will be coerced for this currency. Defaults to region's currency code. (optional)
+
+            moss_tax_id, str: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. Deprecated, please use tax-id. (optional)
+
+            tax_id, str: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. Deprecated, please use tax-id. (optional)
+
+            start_month, str: Period start month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
+
+            end_month, str: Period end month in yyyy-MM-dd format. Either quarter or start-month and end-month have to be provided. (optional)
+
+            quarter, str: Quarter in yyyy-MM format. If start-date and end-date are provided, quarter is ignored and should be set to 'range'. (required)
 
             
 
         Returns: getSettlementOut
         """
 
-        allParams = ['format', 'moss_country_code', 'moss_tax_id', 'quarter']
+        allParams = ['format', 'moss_country_code', 'tax_country_code', 'currency_code', 'moss_tax_id', 'tax_id', 'start_month', 'end_month', 'quarter']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1217,8 +1538,18 @@ class ApiApi(object):
             queryParams['format'] = self.apiClient.toPathValue(params['format'])
         if ('moss_country_code' in params):
             queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
+        if ('tax_country_code' in params):
+            queryParams['tax_country_code'] = self.apiClient.toPathValue(params['tax_country_code'])
+        if ('currency_code' in params):
+            queryParams['currency_code'] = self.apiClient.toPathValue(params['currency_code'])
         if ('moss_tax_id' in params):
             queryParams['moss_tax_id'] = self.apiClient.toPathValue(params['moss_tax_id'])
+        if ('tax_id' in params):
+            queryParams['tax_id'] = self.apiClient.toPathValue(params['tax_id'])
+        if ('start_month' in params):
+            queryParams['start_month'] = self.apiClient.toPathValue(params['start_month'])
+        if ('end_month' in params):
+            queryParams['end_month'] = self.apiClient.toPathValue(params['end_month'])
         if ('quarter' in params):
             replacement = str(self.apiClient.toPathValue(params['quarter']))
             resourcePath = resourcePath.replace('{' + 'quarter' + '}',
@@ -1243,14 +1574,20 @@ class ApiApi(object):
         Args:
             moss_country_code, str: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
 
-            quarter, str: Quarter in yyyy-MM format. (required)
+            tax_region, str: Tax region key (optional)
+
+            start_month, str: Period start month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
+
+            end_month, str: Period end month in yyyy-MM-dd format. Either quarter or start-month and end-month have to be provided. (optional)
+
+            quarter, str: Quarter in yyyy-MM format. If start-date and end-date are provided, quarter is ignored and should be set to 'range'. (required)
 
             
 
         Returns: getSettlementSummaryOut
         """
 
-        allParams = ['moss_country_code', 'quarter']
+        allParams = ['moss_country_code', 'tax_region', 'start_month', 'end_month', 'quarter']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1268,6 +1605,12 @@ class ApiApi(object):
 
         if ('moss_country_code' in params):
             queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
+        if ('tax_region' in params):
+            queryParams['tax_region'] = self.apiClient.toPathValue(params['tax_region'])
+        if ('start_month' in params):
+            queryParams['start_month'] = self.apiClient.toPathValue(params['start_month'])
+        if ('end_month' in params):
+            queryParams['end_month'] = self.apiClient.toPathValue(params['end_month'])
         if ('quarter' in params):
             replacement = str(self.apiClient.toPathValue(params['quarter']))
             resourcePath = resourcePath.replace('{' + 'quarter' + '}',

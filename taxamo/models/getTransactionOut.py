@@ -21,11 +21,17 @@ class GetTransactionOut:
 
     def __init__(self):
         self.swaggerTypes = {
-            'transaction': 'transaction'
+            'transaction': 'transaction',
+            'tax_required_fields': 'list[tax_required_fields]',
+            'storage_required_fields': 'list[storage_required_fields]'
 
         }
 
 
         #Transaction data
         self.transaction = None # transaction
+        #Fields required for tax calculation. Depends on the region/transaction type.
+        self.tax_required_fields = None # list[tax_required_fields]
+        #Fields required for transaction storage (can be added later - it's up to merchant software). Depends on the region/transaction type.
+        self.storage_required_fields = None # list[storage_required_fields]
         

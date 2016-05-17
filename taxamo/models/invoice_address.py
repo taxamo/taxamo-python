@@ -45,7 +45,7 @@ class Invoice_address:
         self.city = None # str
         #Postal code.
         self.postal_code = None # str
-        #Region.
+        #Region, for United States - state code - e.g. NJ.
         self.region = None # str
         #2-letter ISO country code.
         self.country = None # str

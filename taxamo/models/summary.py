@@ -26,6 +26,8 @@ class Summary:
             'currency_code': 'str',
             'indicative': 'bool',
             'fx_rate_date': 'str',
+            'start_date': 'str',
+            'end_date': 'str',
             'tax_entity_name': 'str'
 
         }
@@ -41,6 +43,10 @@ class Summary:
         self.indicative = None # bool
         #Date of ECB FX rate used for conversions in yyyy-MM-dd'T'hh:mm:ss'Z' format.
         self.fx_rate_date = None # str
+        #Period start date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+        self.start_date = None # str
+        #Period end date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+        self.end_date = None # str
         #Tax entity that the tax is due.
         self.tax_entity_name = None # str
         

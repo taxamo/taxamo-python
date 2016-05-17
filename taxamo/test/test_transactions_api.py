@@ -121,14 +121,12 @@ class TaxamoTransactionsApiTest(TaxamoTest):
         self.assertEqual(resp.transaction.evidence.forced.resolved_country_code, "FR")
 
         resp = self.api.listTransactions(statuses="C",
-                                         order_date_from="2014-01-01",
-                                         order_date_to="2099-12-31",
-                                         currency_code='EUR',
                                          sort_reverse='true',
-                                         limit=100)
+                                         currency_code='EUR',
+                                         limit=10)
 
         self.assertTrue(len(resp.transactions) > 0)
-        self.assertTrue(len(resp.transactions) <= 100)
+        self.assertTrue(len(resp.transactions) <= 10)
 
         for transaction in resp.transactions:
             self.assertEqual(transaction.status, 'C')
@@ -265,9 +263,6 @@ class TaxamoTransactionsApiTest(TaxamoTest):
             lambda: self.api.capturePayment(resp.transaction.key))
 
         resp = self.api.listTransactions(statuses="N",
-                                         order_date_from="2001-12-01",
-                                         order_date_to="2099-12-31",
-                                         currency_code='CHF',
                                          sort_reverse='true',
                                          limit=10)
 

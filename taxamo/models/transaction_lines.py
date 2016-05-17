@@ -39,6 +39,7 @@ class Transaction_lines:
             'tax_rate': 'number',
             'additional_currencies': 'additional_currencies',
             'total_amount': 'number',
+            'product_tax_code': 'str',
             'refunded_tax_amount': 'number',
             'description': 'str',
             'refunded_total_amount': 'number'
@@ -82,6 +83,8 @@ class Transaction_lines:
         self.additional_currencies = None # additional_currencies
         #Total amount. Required if amount is not provided.
         self.total_amount = None # number
+        #External product tax code for a line, for example TIC in US Sales tax.
+        self.product_tax_code = None # str
         #Refunded tax amount, calculated by taxmo.
         self.refunded_tax_amount = None # number
         #Line contents description.

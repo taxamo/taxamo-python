@@ -27,6 +27,7 @@ class Country:
             'tax_supported': 'bool',
             'name': 'str',
             'ccn3': 'str',
+            'tax_region': 'str',
             'cca3': 'str',
             'callingCode': 'list[str]',
             'tax_number_country_code': 'str',
@@ -48,6 +49,8 @@ class Country:
         self.name = None # str
         #Country ISO 3-digit code.
         self.ccn3 = None # str
+        #Tax region code - e.g. EU, US, NO, JP...
+        self.tax_region = None # str
         #Three letter ISO country code.
         self.cca3 = None # str
         #List of phone number calling codes.

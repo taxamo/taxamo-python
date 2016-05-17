@@ -22,6 +22,7 @@ class Transactions:
     def __init__(self):
         self.swaggerTypes = {
             'confirm_timestamp': 'str',
+            'fully_informative': 'bool',
             'deducted_tax_amount': 'number',
             'buyer_credit_card_prefix': 'str',
             'custom_data': 'str',
@@ -36,14 +37,18 @@ class Transactions:
             'buyer_tax_number_valid': 'bool',
             'verification_token': 'str',
             'tax_supported': 'bool',
+            'tax_data': 'tax_data_schema',
             'transaction_lines': 'list[transaction_lines]',
             'buyer_tax_number': 'str',
+            'external_key': 'str',
             'status': 'str',
             'custom_fields': 'list[custom_fields]',
             'force_country_code': 'str',
             'countries': 'countries',
             'invoice_number': 'str',
             'order_date': 'str',
+            'customer_id': 'str',
+            'kind': 'str',
             'source': 'str',
             'amount': 'number',
             'buyer_ip': 'str',
@@ -71,6 +76,8 @@ class Transactions:
 
         #Date and time of transaction confirmation.
         self.confirm_timestamp = None # str
+        #Set to true if transaction has only informative lines.
+        self.fully_informative = None # bool
         #How much tax has been deducted.
         self.deducted_tax_amount = None # number
         #Buyer's credit card prefix.
@@ -99,11 +106,15 @@ class Transactions:
         self.verification_token = None # str
         #Is tax calculation supported for a detected tax location?
         self.tax_supported = None # bool
+        #Tax additional information - e.g. US sales tax exemption certificate data.
+        self.tax_data = None # tax_data_schema
         #Transaction lines.
         self.transaction_lines = None # list[transaction_lines]
         # Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
         self.buyer_tax_number = None # str
-        #Transaction status.
+        #Transaction external key
+        self.external_key = None # str
+        #Transaction status: 'N' - new, 'C' - confirmed. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default status. Not applicable for update-transaction!.
         self.status = None # str
         #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
         self.custom_fields = None # list[custom_fields]
@@ -115,6 +126,10 @@ class Transactions:
         self.invoice_number = None # str
         #Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
         self.order_date = None # str
+        #Free-form field for storing customer id.
+        self.customer_id = None # str
+        #Transaction kind: eu-b2c, eu-b2b, domestic, untaxed
+        self.kind = None # str
         #Transaction source software - e.g. plugin
         self.source = None # str
         #Amount of transaction without tax.

@@ -35,6 +35,7 @@ class Input_transaction_line:
             'informative': 'bool',
             'tax_rate': 'number',
             'total_amount': 'number',
+            'product_tax_code': 'str',
             'description': 'str'
 
         }
@@ -68,6 +69,8 @@ class Input_transaction_line:
         self.tax_rate = None # number
         #Total amount. Required if amount is not provided.
         self.total_amount = None # number
+        #External product tax code for a line, for example TIC in US Sales tax.
+        self.product_tax_code = None # str
         #Line contents description.
         self.description = None # str
         
