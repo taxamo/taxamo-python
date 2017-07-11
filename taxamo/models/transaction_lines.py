@@ -23,6 +23,7 @@ class Transaction_lines:
         self.swaggerTypes = {
             'product_type': 'str',
             'deducted_tax_amount': 'number',
+            'deducted_tax_rate': 'number',
             'supply_date': 'str',
             'id': 'number',
             'unit_price': 'number',
@@ -51,6 +52,8 @@ class Transaction_lines:
         self.product_type = None # str
         #Deducted tax amount, calculated by taxmo.
         self.deducted_tax_amount = None # number
+        #Deducted tax rate, calculated by taxamo.
+        self.deducted_tax_rate = None # number
         #Date of supply in yyyy-MM-dd format.
         self.supply_date = None # str
         #Generated id.
@@ -69,7 +72,7 @@ class Transaction_lines:
         self.tax_name = None # str
         #Internal product code, used for invoicing for example.
         self.product_code = None # str
-        #Amount. Required if total amount is not provided.
+        #Amount. Required if total amount or both unit price and quantity are not provided.
         self.amount = None # number
         #Custom id, provided by ecommerce software.
         self.custom_id = None # str
@@ -81,7 +84,7 @@ class Transaction_lines:
         self.tax_rate = None # number
         #Additional currency information - can be used to receive additional information about invoice in another currency.
         self.additional_currencies = None # additional_currencies
-        #Total amount. Required if amount is not provided.
+        #Total amount. Required if amount or both unit price and quantity are not provided.
         self.total_amount = None # number
         #External product tax code for a line, for example TIC in US Sales tax.
         self.product_tax_code = None # str

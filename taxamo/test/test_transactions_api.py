@@ -132,16 +132,6 @@ class TaxamoTransactionsApiTest(TaxamoTest):
             self.assertEqual(transaction.status, 'C')
             self.assertEqual(transaction.currency_code, 'EUR')
 
-        resp = self.api.listTransactions(statuses="N",
-                                         order_date_from="2099-12-01",
-                                         order_date_to="2099-12-31",
-                                         currency_code='EUR',
-                                         sort_reverse='true',
-                                         limit=10)
-
-        self.assertTrue(len(resp.transactions) == 0)
-
-
     def test_cancel(self):
         resp = self.api.createTransaction(
             {

@@ -21,14 +21,17 @@ class Input_transaction:
 
     def __init__(self):
         self.swaggerTypes = {
+            'order_date_type': 'str',
             'buyer_credit_card_prefix': 'str',
             'custom_data': 'str',
             'buyer_name': 'str',
             'invoice_date': 'str',
             'currency_code': 'str',
+            'sub_account_id': 'str',
             'supply_date': 'str',
             'invoice_address': 'invoice_address',
             'verification_token': 'str',
+            'note': 'str',
             'tax_data': 'tax_data_schema',
             'transaction_lines': 'list[input_transaction_line]',
             'buyer_tax_number': 'str',
@@ -38,6 +41,7 @@ class Input_transaction:
             'invoice_number': 'str',
             'order_date': 'str',
             'customer_id': 'str',
+            'comments': 'str',
             'buyer_ip': 'str',
             'buyer_email': 'str',
             'original_transaction_key': 'str',
@@ -53,7 +57,9 @@ class Input_transaction:
         }
 
 
-        #Buyer's credit card prefix.
+        #'timestamp' means that an order date was captured with a full timestamp and can be applied to an FX source which distinguishes time of the day. Empty value or 'day' means that only day information is present.
+        self.order_date_type = None # str
+        #First 6 digits of buyer's credit card prefix.
         self.buyer_credit_card_prefix = None # str
         #Custom data related to transaction.
         self.custom_data = None # str
@@ -63,12 +69,16 @@ class Input_transaction:
         self.invoice_date = None # str
         #Currency code for transaction - e.g. EUR.
         self.currency_code = None # str
+        #Sub account identifier.
+        self.sub_account_id = None # str
         #Supply date in yyyy-MM-dd format.
         self.supply_date = None # str
         #Invoice address.
         self.invoice_address = None # invoice_address
         #Verification token
         self.verification_token = None # str
+        #Additional note related to transaction state - for example if the transaction was created in a 'catch-all' mode or the VAT number re-check for subscriptions has failed.
+        self.note = None # str
         #Tax additional information - e.g. US sales tax exemption certificate data.
         self.tax_data = None # tax_data_schema
         #Transaction lines.
@@ -83,10 +93,12 @@ class Input_transaction:
         self.force_country_code = None # str
         #Invoice number.
         self.invoice_number = None # str
-        #Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
+        #Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example.
         self.order_date = None # str
         #Free-form field for storing customer id.
         self.customer_id = None # str
+        #Additional information about the transaction - for example if the evidence has been amended.
+        self.comments = None # str
         #IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).
         self.buyer_ip = None # str
         #Buyer's declared email address.

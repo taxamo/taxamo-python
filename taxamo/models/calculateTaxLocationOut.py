@@ -45,7 +45,7 @@ class CalculateTaxLocationOut:
         self.buyer_ip = None # str
         #Billing two letter ISO country code.
         self.billing_country_code = None # str
-        #Buyer's credit card prefix.
+        #First 6 digits of buyer's credit card prefix.
         self.buyer_credit_card_prefix = None # str
         #Tax country of residence evidence.
         self.evidence = None # evidence

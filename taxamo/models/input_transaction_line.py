@@ -22,6 +22,7 @@ class Input_transaction_line:
     def __init__(self):
         self.swaggerTypes = {
             'product_type': 'str',
+            'deducted_tax_rate': 'number',
             'supply_date': 'str',
             'unit_price': 'number',
             'unit_of_measure': 'str',
@@ -43,6 +44,8 @@ class Input_transaction_line:
 
         #Product type, according to dictionary /dictionaries/product_types. 
         self.product_type = None # str
+        #Deducted tax rate, calculated by taxamo.
+        self.deducted_tax_rate = None # number
         #Date of supply in yyyy-MM-dd format.
         self.supply_date = None # str
         #Unit price.
@@ -59,7 +62,7 @@ class Input_transaction_line:
         self.tax_name = None # str
         #Internal product code, used for invoicing for example.
         self.product_code = None # str
-        #Amount. Required if total amount is not provided.
+        #Amount. Required if total amount or both unit price and quantity are not provided.
         self.amount = None # number
         #Custom id, provided by ecommerce software.
         self.custom_id = None # str
@@ -67,7 +70,7 @@ class Input_transaction_line:
         self.informative = None # bool
         #Tax rate, calculated by taxamo. Must be provided when informative field is true.
         self.tax_rate = None # number
-        #Total amount. Required if amount is not provided.
+        #Total amount. Required if amount or both unit price and quantity are not provided.
         self.total_amount = None # number
         #External product tax code for a line, for example TIC in US Sales tax.
         self.product_tax_code = None # str

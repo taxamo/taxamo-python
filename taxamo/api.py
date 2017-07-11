@@ -312,7 +312,7 @@ class ApiApi(object):
         
 
     def emailRefund(self, key, refund_note_number, body, **kwargs):
-        """Email invoice
+        """Email credit note
 
         Args:
             key, str: Transaction key. (required)
@@ -590,7 +590,7 @@ class ApiApi(object):
         
 
     def unconfirmTransaction(self, key, body, **kwargs):
-        """Un-confirm the transaction. Un-confirmed transaction can be edited or canceled like a newly created one.
+        """Un-confirm the transaction
 
         Args:
             key, str: Transaction key. (optional)
@@ -640,9 +640,11 @@ class ApiApi(object):
         """Browse transactions
 
         Args:
-            filter_text, str: Filtering expression (optional)
+            filter_text, str: Filtering expression. Placeholder field, not supported yet. (optional)
 
             offset, integer: Offset (optional)
+
+            has_note, bool: Return only transactions with a note field set. (optional)
 
             key_or_custom_id, str: Taxamo provided transaction key or custom id (optional)
 
@@ -655,6 +657,8 @@ class ApiApi(object):
             limit, integer: Limit (no more than 1000, defaults to 100). (optional)
 
             invoice_number, str: Transaction invoice number. (optional)
+
+            tax_country_codes, str: Comma separated list of two letter ISO tax country codes. (optional)
 
             statuses, str: Comma separated list of of transaction statuses. 'N' - unconfirmed transaction, 'C' - confirmed transaction. (optional)
 
@@ -675,7 +679,7 @@ class ApiApi(object):
         Returns: listTransactionsOut
         """
 
-        allParams = ['filter_text', 'offset', 'key_or_custom_id', 'currency_code', 'order_date_to', 'sort_reverse', 'limit', 'invoice_number', 'statuses', 'original_transaction_key', 'order_date_from', 'total_amount_greater_than', 'format', 'total_amount_less_than', 'tax_country_code']
+        allParams = ['filter_text', 'offset', 'has_note', 'key_or_custom_id', 'currency_code', 'order_date_to', 'sort_reverse', 'limit', 'invoice_number', 'tax_country_codes', 'statuses', 'original_transaction_key', 'order_date_from', 'total_amount_greater_than', 'format', 'total_amount_less_than', 'tax_country_code']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -695,6 +699,8 @@ class ApiApi(object):
             queryParams['filter_text'] = self.apiClient.toPathValue(params['filter_text'])
         if ('offset' in params):
             queryParams['offset'] = self.apiClient.toPathValue(params['offset'])
+        if ('has_note' in params):
+            queryParams['has_note'] = self.apiClient.toPathValue(params['has_note'])
         if ('key_or_custom_id' in params):
             queryParams['key_or_custom_id'] = self.apiClient.toPathValue(params['key_or_custom_id'])
         if ('currency_code' in params):
@@ -707,6 +713,8 @@ class ApiApi(object):
             queryParams['limit'] = self.apiClient.toPathValue(params['limit'])
         if ('invoice_number' in params):
             queryParams['invoice_number'] = self.apiClient.toPathValue(params['invoice_number'])
+        if ('tax_country_codes' in params):
+            queryParams['tax_country_codes'] = self.apiClient.toPathValue(params['tax_country_codes'])
         if ('statuses' in params):
             queryParams['statuses'] = self.apiClient.toPathValue(params['statuses'])
         if ('original_transaction_key' in params):
@@ -784,7 +792,7 @@ class ApiApi(object):
 
             invoice_address_city, str: Invoice address/postal_code (optional)
 
-            buyer_credit_card_prefix, str: Buyer's credit card prefix. (optional)
+            buyer_credit_card_prefix, str: First 6 digits of buyer's credit card prefix. (optional)
 
             currency_code, str: Currency code for transaction - e.g. EUR. (required)
 
@@ -798,15 +806,15 @@ class ApiApi(object):
 
             force_country_code, str: Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation. (optional)
 
-            order_date, str: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used. (optional)
+            order_date, str: Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example. (optional)
 
-            amount, number: Amount. Required if total amount is not provided. (optional)
+            amount, number: Amount. Required if total amount or both unit price and quantity are not provided. (optional)
 
             billing_country_code, str: Billing two letter ISO country code. (optional)
 
             invoice_address_postal_code, str: Invoice address/postal_code (optional)
 
-            total_amount, number: Total amount. Required if amount is not provided. (optional)
+            total_amount, number: Total amount. Required if amount or both unit price and quantity are not provided. (optional)
 
             tax_deducted, bool: If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example. (optional)
 
@@ -930,7 +938,7 @@ class ApiApi(object):
         Args:
             billing_country_code, str: Billing two letter ISO country code. (optional)
 
-            buyer_credit_card_prefix, str: Buyer's credit card prefix. (optional)
+            buyer_credit_card_prefix, str: First 6 digits of buyer's credit card prefix. (optional)
 
             
 
@@ -1056,14 +1064,14 @@ class ApiApi(object):
         
 
     def getTransactionsStatsByCountry(self, date_from, date_to, **kwargs):
-        """Settlement by country
+        """Transaction stats by country
 
         Args:
             global_currency_code, str: Global currency code to use for conversion - in addition to country's currency if rate is available. Conversion is indicative and based on most-recent rate from ECB. (optional)
 
-            date_from, str: Date from in yyyy-MM format. (required)
+            date_from, str: Date from in yyyy-MM-dd format. (required)
 
-            date_to, str: Date to in yyyy-MM format. (required)
+            date_to, str: Date to in yyyy-MM-dd format. (required)
 
             
 
@@ -1110,9 +1118,9 @@ class ApiApi(object):
         """Transaction stats
 
         Args:
-            date_from, str: Date from in yyyy-MM format. (required)
+            date_from, str: Date from in yyyy-MM-dd format. (required)
 
-            date_to, str: Date to in yyyy-MM format. (required)
+            date_to, str: Date to in yyyy-MM-dd format. (required)
 
             interval, str: Interval. Accepted values are 'day', 'week' and 'month'. (optional)
 
@@ -1161,9 +1169,9 @@ class ApiApi(object):
         """Settlement by country
 
         Args:
-            date_from, str: Date from in yyyy-MM format. (required)
+            date_from, str: Date from in yyyy-MM-dd format. (required)
 
-            date_to, str: Date to in yyyy-MM format. (required)
+            date_to, str: Date to in yyyy-MM-dd format. (required)
 
             
 
@@ -1208,9 +1216,9 @@ class ApiApi(object):
         """Settlement by tax type
 
         Args:
-            date_from, str: Date from in yyyy-MM format. (required)
+            date_from, str: Date from in yyyy-MM-dd format. (required)
 
-            date_to, str: Date to in yyyy-MM format. (required)
+            date_to, str: Date to in yyyy-MM-dd format. (required)
 
             
 
@@ -1257,9 +1265,9 @@ class ApiApi(object):
         Args:
             interval, str: Interval type - day, week, month. (required)
 
-            date_from, str: Date from in yyyy-MM format. (required)
+            date_from, str: Date from in yyyy-MM-dd format. (required)
 
-            date_to, str: Date to in yyyy-MM format. (required)
+            date_to, str: Date to in yyyy-MM-dd format. (required)
 
             
 
@@ -1302,32 +1310,36 @@ class ApiApi(object):
 
         
 
-    def getEuViesReport(self, eu_country_code, start_month, end_month, **kwargs):
-        """Calculate EU VIES report.
+    def getEuViesReport(self, end_month, start_month, eu_country_code, **kwargs):
+        """Calculate EU VIES report
 
         Args:
-            format, str: Output format. 'xml' and 'csv' values are accepted as well (optional)
+            period_length, str: Length of report period. 'month', 'quarter' and 'year' values are accepted. Required only if Large Filer Format is requested. (optional)
+
+            lff_sequence_number, str: Sequence number used to generate report in Large Filer Format. If not specified then '0000000001' will be used. (optional)
 
             transformation, str: Which transformation should be applied. Please note that transformation will be applied only for xml and csv formats. (optional)
 
-            eu_country_code, str: ISO 2-letter country code which will be used for determining which country is domestic. (required)
-
             currency_code, str: ISO 3-letter currency code, e.g. EUR or USD. Defaults to the one assigned to MOSS calculations for a given country code. (optional)
+
+            end_month, str: Period end month in yyyy-MM format. (required)
 
             tax_id, str: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. (optional)
 
             start_month, str: Period start month in yyyy-MM format. (required)
 
-            end_month, str: Period end month in yyyy-MM-dd format. (required)
+            eu_country_code, str: ISO 2-letter country code which will be used for determining which country is domestic. (required)
 
             fx_date_type, str: Which date should be used for FX. (optional)
+
+            format, str: Output format. 'xml', 'csv' and 'lff' (only for Ireland) values are accepted as well (optional)
 
             
 
         Returns: getEuViesReportOut
         """
 
-        allParams = ['format', 'transformation', 'eu_country_code', 'currency_code', 'tax_id', 'start_month', 'end_month', 'fx_date_type']
+        allParams = ['period_length', 'lff_sequence_number', 'transformation', 'currency_code', 'end_month', 'tax_id', 'start_month', 'eu_country_code', 'fx_date_type', 'format']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1343,22 +1355,26 @@ class ApiApi(object):
         queryParams = {}
         headerParams = {}
 
-        if ('format' in params):
-            queryParams['format'] = self.apiClient.toPathValue(params['format'])
+        if ('period_length' in params):
+            queryParams['period_length'] = self.apiClient.toPathValue(params['period_length'])
+        if ('lff_sequence_number' in params):
+            queryParams['lff_sequence_number'] = self.apiClient.toPathValue(params['lff_sequence_number'])
         if ('transformation' in params):
             queryParams['transformation'] = self.apiClient.toPathValue(params['transformation'])
-        if ('eu_country_code' in params):
-            queryParams['eu_country_code'] = self.apiClient.toPathValue(params['eu_country_code'])
         if ('currency_code' in params):
             queryParams['currency_code'] = self.apiClient.toPathValue(params['currency_code'])
+        if ('end_month' in params):
+            queryParams['end_month'] = self.apiClient.toPathValue(params['end_month'])
         if ('tax_id' in params):
             queryParams['tax_id'] = self.apiClient.toPathValue(params['tax_id'])
         if ('start_month' in params):
             queryParams['start_month'] = self.apiClient.toPathValue(params['start_month'])
-        if ('end_month' in params):
-            queryParams['end_month'] = self.apiClient.toPathValue(params['end_month'])
+        if ('eu_country_code' in params):
+            queryParams['eu_country_code'] = self.apiClient.toPathValue(params['eu_country_code'])
         if ('fx_date_type' in params):
             queryParams['fx_date_type'] = self.apiClient.toPathValue(params['fx_date_type'])
+        if ('format' in params):
+            queryParams['format'] = self.apiClient.toPathValue(params['format'])
         postData = (params['body'] if 'body' in params else None)
 
         response = self.apiClient.callAPI(resourcePath, method, queryParams,
@@ -1374,7 +1390,7 @@ class ApiApi(object):
         
 
     def getDomesticSummaryReport(self, country_code, start_month, end_month, **kwargs):
-        """Calculate domestic summary.
+        """Calculate domestic summary
 
         Args:
             format, str: Output format. 'xml' and 'csv' values are accepted. Default format - json (optional)
@@ -1385,7 +1401,7 @@ class ApiApi(object):
 
             start_month, str: Period start month in yyyy-MM format. (required)
 
-            end_month, str: Period end month in yyyy-MM-dd format. (required)
+            end_month, str: Period end month in yyyy-MM format. (required)
 
             fx_date_type, str: Which date should be used for FX. (optional)
 
@@ -1431,6 +1447,69 @@ class ApiApi(object):
             return None
 
         responseObject = self.apiClient.deserialize(response, 'getDomesticSummaryReportOut')
+        return responseObject
+        
+
+        
+
+    def getDetailedRefunds(self, **kwargs):
+        """Detailed refunds
+
+        Args:
+            format, str: Output format. 'json' or 'csv'. Default value is 'json' (optional)
+
+            country_codes, str: Comma separated list of 2-letter country codes (optional)
+
+            date_from, str: Take only refunds issued at or after the date. Format: yyyy-MM-dd (optional)
+
+            date_to, str: Take only refunds issued at or before the date. Format: yyyy-MM-dd (optional)
+
+            limit, number: Limit (no more than 1000, defaults to 100). (optional)
+
+            offset, number: Offset. Defaults to 0 (optional)
+
+            
+
+        Returns: getDetailedRefundsOut
+        """
+
+        allParams = ['format', 'country_codes', 'date_from', 'date_to', 'limit', 'offset']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method getDetailedRefunds" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/settlement/detailed_refunds'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('format' in params):
+            queryParams['format'] = self.apiClient.toPathValue(params['format'])
+        if ('country_codes' in params):
+            queryParams['country_codes'] = self.apiClient.toPathValue(params['country_codes'])
+        if ('date_from' in params):
+            queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
+        if ('date_to' in params):
+            queryParams['date_to'] = self.apiClient.toPathValue(params['date_to'])
+        if ('limit' in params):
+            queryParams['limit'] = self.apiClient.toPathValue(params['limit'])
+        if ('offset' in params):
+            queryParams['offset'] = self.apiClient.toPathValue(params['offset'])
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'getDetailedRefundsOut')
         return responseObject
         
 
@@ -1495,21 +1574,23 @@ class ApiApi(object):
         """Fetch settlement
 
         Args:
-            format, str: Output format. 'csv' value is accepted as well (optional)
-
-            moss_country_code, str: MOSS country code, used to determine currency/region. If ommited, merchant default setting is used. Deprecated: please use tax-country-code. (optional)
-
-            tax_country_code, str: Tax entity country code, used to determine currency/region.  (optional)
+            moss_tax_id, str: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. Deprecated, please use tax-id. (optional)
 
             currency_code, str: ISO 3-letter currency code, e.g. EUR or USD. If provided, all amounts will be coerced for this currency. Defaults to region's currency code. (optional)
 
-            moss_tax_id, str: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. Deprecated, please use tax-id. (optional)
+            end_month, str: Period end month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
 
             tax_id, str: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. Deprecated, please use tax-id. (optional)
 
+            refund_date_kind_override, str: Set to 'order_date' to show only refunds for the transactions in the selected reporting period. Set to 'refund_timestamp' to show refunds that were created in the selected reporting period. Do not set to use the default region's setting. (optional)
+
             start_month, str: Period start month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
 
-            end_month, str: Period end month in yyyy-MM-dd format. Either quarter or start-month and end-month have to be provided. (optional)
+            moss_country_code, str: MOSS country code, used to determine currency/region. If ommited, merchant default setting is used. Deprecated: please use tax-country-code. (optional)
+
+            format, str: Output format. 'csv' value is accepted as well (optional)
+
+            tax_country_code, str: Tax entity country code, used to determine currency/region.  (optional)
 
             quarter, str: Quarter in yyyy-MM format. If start-date and end-date are provided, quarter is ignored and should be set to 'range'. (required)
 
@@ -1518,7 +1599,7 @@ class ApiApi(object):
         Returns: getSettlementOut
         """
 
-        allParams = ['format', 'moss_country_code', 'tax_country_code', 'currency_code', 'moss_tax_id', 'tax_id', 'start_month', 'end_month', 'quarter']
+        allParams = ['moss_tax_id', 'currency_code', 'end_month', 'tax_id', 'refund_date_kind_override', 'start_month', 'moss_country_code', 'format', 'tax_country_code', 'quarter']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1534,22 +1615,24 @@ class ApiApi(object):
         queryParams = {}
         headerParams = {}
 
-        if ('format' in params):
-            queryParams['format'] = self.apiClient.toPathValue(params['format'])
-        if ('moss_country_code' in params):
-            queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
-        if ('tax_country_code' in params):
-            queryParams['tax_country_code'] = self.apiClient.toPathValue(params['tax_country_code'])
-        if ('currency_code' in params):
-            queryParams['currency_code'] = self.apiClient.toPathValue(params['currency_code'])
         if ('moss_tax_id' in params):
             queryParams['moss_tax_id'] = self.apiClient.toPathValue(params['moss_tax_id'])
-        if ('tax_id' in params):
-            queryParams['tax_id'] = self.apiClient.toPathValue(params['tax_id'])
-        if ('start_month' in params):
-            queryParams['start_month'] = self.apiClient.toPathValue(params['start_month'])
+        if ('currency_code' in params):
+            queryParams['currency_code'] = self.apiClient.toPathValue(params['currency_code'])
         if ('end_month' in params):
             queryParams['end_month'] = self.apiClient.toPathValue(params['end_month'])
+        if ('tax_id' in params):
+            queryParams['tax_id'] = self.apiClient.toPathValue(params['tax_id'])
+        if ('refund_date_kind_override' in params):
+            queryParams['refund_date_kind_override'] = self.apiClient.toPathValue(params['refund_date_kind_override'])
+        if ('start_month' in params):
+            queryParams['start_month'] = self.apiClient.toPathValue(params['start_month'])
+        if ('moss_country_code' in params):
+            queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
+        if ('format' in params):
+            queryParams['format'] = self.apiClient.toPathValue(params['format'])
+        if ('tax_country_code' in params):
+            queryParams['tax_country_code'] = self.apiClient.toPathValue(params['tax_country_code'])
         if ('quarter' in params):
             replacement = str(self.apiClient.toPathValue(params['quarter']))
             resourcePath = resourcePath.replace('{' + 'quarter' + '}',
@@ -1578,7 +1661,7 @@ class ApiApi(object):
 
             start_month, str: Period start month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
 
-            end_month, str: Period end month in yyyy-MM-dd format. Either quarter or start-month and end-month have to be provided. (optional)
+            end_month, str: Period end month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
 
             quarter, str: Quarter in yyyy-MM format. If start-date and end-date are provided, quarter is ignored and should be set to 'range'. (required)
 

@@ -23,7 +23,9 @@ class ValidateTaxNumberOut:
         self.swaggerTypes = {
             'tax_deducted': 'bool',
             'buyer_tax_number': 'str',
+            'buyer_tax_number_normalized': 'str',
             'buyer_tax_number_valid': 'bool',
+            'buyer_tax_number_format_valid': 'bool',
             'billing_country_code': 'str'
 
         }
@@ -33,8 +35,12 @@ class ValidateTaxNumberOut:
         self.tax_deducted = None # bool
         # Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
         self.buyer_tax_number = None # str
+        #Buyer's tax number - normalized form.
+        self.buyer_tax_number_normalized = None # str
         #If the buyer tax number has been provided and was validated successfully. Always true for domestic transactions (billing country same as merchant's country), tax number doesn't get validated in that case.
         self.buyer_tax_number_valid = None # bool
+        #If the buyer tax number has been checked for syntax and is correct. It does not determine if the transaction should be tax deducted.
+        self.buyer_tax_number_format_valid = None # bool
         #Billing two letter ISO country code.
         self.billing_country_code = None # str
         
