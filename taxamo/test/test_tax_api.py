@@ -87,3 +87,43 @@ class TaxamoTaxApiTest(TaxamoTest):
         self.assertEqual(resp.countries.detected.code, "BE")
         self.assertEqual(resp.countries.by_billing.code, "BE")
         self.assertEqual(resp.countries.by_cc.code, "BE")
+
+    def test_calculate_with_control_flags(self):
+        resp = self.api.calculateTax(
+            {
+                'transaction': {
+                    'currency_code': 'USD',
+                    'buyer_ip': '127.0.0.1',
+                    'billing_country_code': 'DE',
+                    'buyer_tax_number': '123456789',
+                    'transaction_lines': [{'amount': 200,
+                                           'custom_id': 'line1'},
+                                          {'amount': 100,
+                                           'product_type': 'e-book',
+                                           'custom_id': 'line2'}],
+                    'control_flags': [{'key': 'b2b-number-service-timeoutms',
+                                       'value': '5'},
+                                      {'key': 'b2b-number-service-expiry-days',
+                                       'value': '1'},
+                                      {'key': 'b2b-number-service-on-error',
+                                       'value': 'accept'}]
+                }})
+        self.assertEqual(resp.transaction.countries.detected.code, "DE")
+        self.assertEqual(resp.transaction.amount, 300)
+        self.assertEqual(resp.transaction.tax_amount, 0)
+        self.assertEqual(resp.transaction.total_amount, 300)
+
+        self.assertEqual(resp.transaction.transaction_lines[0].custom_id, 'line1')
+        self.assertEqual(resp.transaction.transaction_lines[0].tax_rate, 0)
+        self.assertEqual(resp.transaction.transaction_lines[0].tax_amount, 0)
+        self.assertEqual(resp.transaction.transaction_lines[1].custom_id, 'line2')
+        self.assertEqual(resp.transaction.transaction_lines[1].tax_rate, 0)
+        self.assertEqual(resp.transaction.transaction_lines[1].tax_amount, 0)
+
+        self.assertEqual(resp.transaction.kind, 'eu-b2b')
+        self.assertEqual(resp.transaction.warnings[0].type, 'vies-error')
+        self.assertEqual(resp.transaction.warnings[0].message, 'Read timed out')
+        self.assertEqual(resp.transaction.note, 'b2b_error_accept')
+
+
+        print resp.transaction

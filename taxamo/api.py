@@ -804,9 +804,15 @@ class ApiApi(object):
 
             buyer_tax_number, str:  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly. (optional)
 
+            b2b_number_service_on_error, str: If this field is set to 'accept' and the B2B service check fails due to timeout or other issue, treat the transaction as successful. (optional)
+
+            b2b_number_service_timeoutms, str: B2B lookup timeout in ms, please use the full endpoint for more flexibility. (optional)
+
             force_country_code, str: Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation. (optional)
 
-            order_date, str: Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example. (optional)
+            order_date, str: Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss or yyyy-MM-dd'T'HH:mm:ss'Z' format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example. (optional)
+
+            b2b_number_service_cache_expiry_days, str: Override a number of days that the B2B validation cache applies to. Default is 30. (optional)
 
             amount, number: Amount. Required if total amount or both unit price and quantity are not provided. (optional)
 
@@ -823,7 +829,7 @@ class ApiApi(object):
         Returns: calculateSimpleTaxOut
         """
 
-        allParams = ['product_type', 'invoice_address_city', 'buyer_credit_card_prefix', 'currency_code', 'invoice_address_region', 'unit_price', 'quantity', 'buyer_tax_number', 'force_country_code', 'order_date', 'amount', 'billing_country_code', 'invoice_address_postal_code', 'total_amount', 'tax_deducted']
+        allParams = ['product_type', 'invoice_address_city', 'buyer_credit_card_prefix', 'currency_code', 'invoice_address_region', 'unit_price', 'quantity', 'buyer_tax_number', 'b2b_number_service_on_error', 'b2b_number_service_timeoutms', 'force_country_code', 'order_date', 'b2b_number_service_cache_expiry_days', 'amount', 'billing_country_code', 'invoice_address_postal_code', 'total_amount', 'tax_deducted']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -855,10 +861,16 @@ class ApiApi(object):
             queryParams['quantity'] = self.apiClient.toPathValue(params['quantity'])
         if ('buyer_tax_number' in params):
             queryParams['buyer_tax_number'] = self.apiClient.toPathValue(params['buyer_tax_number'])
+        if ('b2b_number_service_on_error' in params):
+            queryParams['b2b_number_service_on_error'] = self.apiClient.toPathValue(params['b2b_number_service_on_error'])
+        if ('b2b_number_service_timeoutms' in params):
+            queryParams['b2b_number_service_timeoutms'] = self.apiClient.toPathValue(params['b2b_number_service_timeoutms'])
         if ('force_country_code' in params):
             queryParams['force_country_code'] = self.apiClient.toPathValue(params['force_country_code'])
         if ('order_date' in params):
             queryParams['order_date'] = self.apiClient.toPathValue(params['order_date'])
+        if ('b2b_number_service_cache_expiry_days' in params):
+            queryParams['b2b_number_service_cache_expiry_days'] = self.apiClient.toPathValue(params['b2b_number_service_cache_expiry_days'])
         if ('amount' in params):
             queryParams['amount'] = self.apiClient.toPathValue(params['amount'])
         if ('billing_country_code' in params):

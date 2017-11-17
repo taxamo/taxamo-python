@@ -29,6 +29,7 @@ class Input_transaction:
             'currency_code': 'str',
             'sub_account_id': 'str',
             'supply_date': 'str',
+            'control_flags': 'list[control_flags]',
             'invoice_address': 'invoice_address',
             'verification_token': 'str',
             'note': 'str',
@@ -73,6 +74,8 @@ class Input_transaction:
         self.sub_account_id = None # str
         #Supply date in yyyy-MM-dd format.
         self.supply_date = None # str
+        #Control flags, stored as key-value pairs.
+        self.control_flags = None # list[control_flags]
         #Invoice address.
         self.invoice_address = None # invoice_address
         #Verification token
@@ -93,7 +96,7 @@ class Input_transaction:
         self.force_country_code = None # str
         #Invoice number.
         self.invoice_number = None # str
-        #Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example.
+        #Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss or yyyy-MM-dd'T'HH:mm:ss'Z' format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example.
         self.order_date = None # str
         #Free-form field for storing customer id.
         self.customer_id = None # str

@@ -38,6 +38,7 @@ class Transactions:
             'key': 'str',
             'buyer_tax_number_format_valid': 'bool',
             'tax_number_service': 'str',
+            'control_flags': 'list[control_flags]',
             'invoice_address': 'invoice_address',
             'buyer_tax_number_valid': 'bool',
             'verification_token': 'str',
@@ -65,6 +66,7 @@ class Transactions:
             'custom_id': 'str',
             'tax_amount': 'number',
             'tax_entity_additional_id': 'str',
+            'warnings': 'list[warnings]',
             'additional_currencies': 'additional_currencies',
             'invoice_place': 'str',
             'total_amount': 'number',
@@ -116,6 +118,8 @@ class Transactions:
         self.buyer_tax_number_format_valid = None # bool
         #Tax number service identifier - if available for a given region and the region is enabled.
         self.tax_number_service = None # str
+        #Control flags, stored as key-value pairs.
+        self.control_flags = None # list[control_flags]
         #Invoice address.
         self.invoice_address = None # invoice_address
         #If the buyer tax number has been provided and was validated successfully. Always true for domestic transactions (billing country same as merchant's country), tax number doesn't get validated in that case.
@@ -144,7 +148,7 @@ class Transactions:
         self.countries = None # countries
         #Invoice number.
         self.invoice_number = None # str
-        #Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example.
+        #Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss or yyyy-MM-dd'T'HH:mm:ss'Z' format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example.
         self.order_date = None # str
         #Free-form field for storing customer id.
         self.customer_id = None # str
@@ -170,6 +174,8 @@ class Transactions:
         self.tax_amount = None # number
         #Tax entity additional id.
         self.tax_entity_additional_id = None # str
+        #Warnings for the transaction process, usually related to contacting B2B validation service.
+        self.warnings = None # list[warnings]
         #Additional currency information - can be used to receive additional information about invoice in another currency.
         self.additional_currencies = None # additional_currencies
         #Invoice place of issue.
