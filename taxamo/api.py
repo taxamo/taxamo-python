@@ -497,7 +497,7 @@ class ApiApi(object):
 
         
 
-    def confirmTransaction(self, key, body, **kwargs):
+    def confirmTransaction(self, key, body=None, **kwargs):
         """Confirm transaction
 
         Args:
