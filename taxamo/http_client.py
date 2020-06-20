@@ -156,7 +156,15 @@ class RequestsClient(HTTPClient):
         return content, status_code
 
     def _handle_request_error(self, e):
-        if isinstance(e, requests.exceptions.RequestException):
+        # Catch SSL error first as it belongs to ConnectionError
+        if isinstance(e, requests.exceptions.SSLError):
+            msg = ("Could not verify Taxamo's SSL certificate.  Please make "
+                   "sure that your network is not intercepting certificates.  "
+                   "If this problem persists, let us know at "
+                   "support@taxamo.com.")
+            err = "%s: %s" % (type(e).__name__, str(e))
+        # Catch all request specific with descriptive class/messages
+        elif isinstance(e, requests.exceptions.RequestException):
             msg = ("Unexpected error communicating with Taxamo.  "
                    "If this problem persists, let us know at "
                    "support@taxamo.com.")
