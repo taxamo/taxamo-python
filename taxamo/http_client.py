@@ -138,7 +138,7 @@ class RequestsClient(HTTPClient):
 
             # This causes the content to actually be read, which could cause
             # e.g. a socket timeout. TODO: The other fetch methods probably
-            # are succeptible to the same and should be updated.
+            # are susceptible to the same and should be updated.
             content = result.content
         except Exception, e:
             # Would catch just requests.exceptions.RequestException, but can
