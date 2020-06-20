@@ -29,6 +29,7 @@ import textwrap
 import warnings
 import error
 import json
+import threading
 
 # - Requests is the preferred HTTP library
 # - Google App Engine has urlfetch
@@ -106,9 +107,12 @@ class HTTPClient(object):
 
 class RequestsClient(HTTPClient):
     name = 'requests'
-    s = requests.Session()
 
-    def request(self, method, url, headers, post_data=None):
+    def __init__(self, *args, **kwargs):
+        super(RequestsClient, self).__init__(*args, **kwargs)
+        self._requests_session = requests.Session()
+
+    def request(self, method, url, headers, post_data=None, timeout=30):
         kwargs = {}
 
         kwargs['verify'] = os.path.join(
@@ -117,12 +121,12 @@ class RequestsClient(HTTPClient):
 
         try:
             try:
-                result = self.s.request(method,
-                                        url,
-                                        headers=headers,
-                                        data=post_data,
-                                        timeout=30,
-                                        **kwargs)
+                result = self._requests_session.request(method,
+                                                        url,
+                                                        headers=headers,
+                                                        data=post_data,
+                                                        timeout=timeout,
+                                                        **kwargs)
                 status_code = result.status_code
 
                 if status_code != 400 and status_code != 401:
@@ -181,7 +185,6 @@ class RequestsClient(HTTPClient):
                 err += " with no error message"
         msg = textwrap.fill(msg) + "\n\n(Network error: %s)" % (err,)
         raise error.APIConnectionError(msg)
-
 
 # class UrlFetchClient(HTTPClient):
 #     name = 'urlfetch'
@@ -293,7 +296,7 @@ class Urllib2Client(HTTPClient):
     else:
         name = 'urllib2'
 
-    def request(self, method, url, headers, post_data=None):
+    def request(self, method, url, headers, post_data=None,timeout=30):
         if sys.version_info >= (3, 0) and isinstance(post_data, basestring):
             post_data = post_data.encode('utf-8')
 
@@ -303,7 +306,7 @@ class Urllib2Client(HTTPClient):
             req.get_method = lambda: method.upper()
 
         try:
-            response = urllib2.urlopen(req)
+            response = urllib2.urlopen(req, timeout=timeout)
             rbody = response.read()
             if hasattr(rbody, 'decode'):
                 rbody = rbody.decode('utf-8')
