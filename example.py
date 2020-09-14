@@ -1,9 +1,10 @@
 import taxamo.api
 import taxamo.swagger
+import os
 
 print "Calculating tax"
 
-apiClient = taxamo.swagger.ApiClient("SamplePrivateTestKey1", "https://api.taxamo.com")
+apiClient = taxamo.swagger.ApiClient(os.environ["TAXAMO_KEY"], "https://api.taxamo.com")
 api = taxamo.api.ApiApi(apiClient)
 
 resp = api.calculateTax(

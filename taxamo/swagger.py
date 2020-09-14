@@ -34,14 +34,14 @@ def capitalize(line):
 class ApiClient:
     """Generic API client for Swagger client library builds"""
 
-    client = http_client.new_default_http_client()
-
-    def __init__(self, apiKey=None, apiServer=None):
+    def __init__(self, apiKey=None, apiServer=None, timeout=30):
         if apiKey == None:
             raise Exception('You must pass an apiKey when instantiating the '
                             'APIClient')
         self.apiKey = apiKey
         self.apiServer = apiServer
+        self._client = http_client.new_default_http_client()
+        self._timeout = timeout
         # self.cookie = None
 
     def callAPI(self, resourcePath, method, queryParams, postData,
@@ -89,7 +89,7 @@ class ApiClient:
 
         # Make the request
         try:
-            resp_body, resp_code = self.client.request(method=method, url=url, headers=headers, post_data=data)
+            resp_body, resp_code = self._client.request(method=method, url=url, headers=headers, post_data=data, timeout=self._timeout)
         except urllib2.HTTPError, err:
             if err.code == 400:
                 raise Exception(err.read())

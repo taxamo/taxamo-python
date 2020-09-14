@@ -252,9 +252,7 @@ class TaxamoTransactionsApiTest(TaxamoTest):
             taxamo.error.ValidationError,
             lambda: self.api.capturePayment(resp.transaction.key))
 
-        resp = self.api.listTransactions(statuses="N",
-                                         sort_reverse='true',
-                                         limit=10)
+        resp = self.api.listTransactions(key_or_custom_id=resp.transaction.key)
 
         self.assertFalse(resp.transactions[0].key is None)
         self.assertEqual(resp.transactions[0].status, 'N')

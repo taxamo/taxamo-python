@@ -79,14 +79,14 @@ class TaxamoTaxApiTest(TaxamoTest):
 
     def test_location_calculate(self):
 
-        resp = self.api.calculateTaxLocation(billing_country_code='BE',
+        resp = self.api.calculateTaxLocation(billing_country_code='GB',
                                              buyer_credit_card_prefix='424242')
 
-        self.assertEqual(resp.tax_country_code, "BE")
+        self.assertEqual(resp.tax_country_code, "GB")
         self.assertEqual(resp.tax_supported, True)
-        self.assertEqual(resp.countries.detected.code, "BE")
-        self.assertEqual(resp.countries.by_billing.code, "BE")
-        self.assertEqual(resp.countries.by_cc.code, "BE")
+        self.assertEqual(resp.countries.detected.code, "GB")
+        self.assertEqual(resp.countries.by_billing.code, "GB")
+        self.assertEqual(resp.countries.by_cc.code, "GB")
 
     def test_calculate_with_control_flags(self):
         resp = self.api.calculateTax(
@@ -122,7 +122,7 @@ class TaxamoTaxApiTest(TaxamoTest):
 
         self.assertEqual(resp.transaction.kind, 'eu-b2b')
         self.assertEqual(resp.transaction.warnings[0].type, 'vies-error')
-        self.assertEqual(resp.transaction.warnings[0].message, 'Read timed out')
+        self.assertIn(resp.transaction.warnings[0].message, ['Read timed out', 'Network is unreachable (connect failed)'])
         self.assertEqual(resp.transaction.note, 'b2b_error_accept')
 
 
