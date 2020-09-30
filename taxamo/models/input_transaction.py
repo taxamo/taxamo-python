@@ -21,6 +21,7 @@ class Input_transaction:
 
     def __init__(self):
         self.swaggerTypes = {
+            'payment_address': 'payment_address',
             'order_date_type': 'str',
             'buyer_credit_card_prefix': 'str',
             'custom_data': 'str',
@@ -36,11 +37,13 @@ class Input_transaction:
             'tax_data': 'tax_data_schema',
             'transaction_lines': 'list[input_transaction_line]',
             'buyer_tax_number': 'str',
+            'additional_interactions': 'list[additional_interactions]',
             'status': 'str',
             'custom_fields': 'list[custom_fields]',
             'force_country_code': 'str',
             'invoice_number': 'str',
             'order_date': 'str',
+            'external_unique_id': 'str',
             'customer_id': 'str',
             'comments': 'str',
             'buyer_ip': 'str',
@@ -49,6 +52,7 @@ class Input_transaction:
             'billing_country_code': 'str',
             'custom_id': 'str',
             'additional_currencies': 'additional_currencies',
+            'ship_to_address': 'ship_to_address',
             'invoice_place': 'str',
             'evidence': 'evidence',
             'description': 'str',
@@ -58,6 +62,8 @@ class Input_transaction:
         }
 
 
+        #Payment address.
+        self.payment_address = None # payment_address
         #'timestamp' means that an order date was captured with a full timestamp and can be applied to an FX source which distinguishes time of the day. Empty value or 'day' means that only day information is present.
         self.order_date_type = None # str
         #First 6 digits of buyer's credit card prefix.
@@ -74,7 +80,7 @@ class Input_transaction:
         self.sub_account_id = None # str
         #Supply date in yyyy-MM-dd format.
         self.supply_date = None # str
-        #Control flags, stored as key-value pairs.
+        #Control flags, stored as key-value string pairs. Possible flags (keys): &quot;b2b-number-service-timeoutms&quot;, &quot;b2b-number-service-expiry-days&quot;, &quot;b2b-number-service-on-error&quot; (value &quot;accept&quot;). Region code can be appended to all of the keys, e.g. &quot;b2b-number-service-timeoutms-EU&quot;. 
         self.control_flags = None # list[control_flags]
         #Invoice address.
         self.invoice_address = None # invoice_address
@@ -88,6 +94,8 @@ class Input_transaction:
         self.transaction_lines = None # list[input_transaction_line]
         # Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
         self.buyer_tax_number = None # str
+        #Information about additional interactions necessary/available.
+        self.additional_interactions = None # list[additional_interactions]
         #Transaction status: 'N' - new, 'C' - confirmed. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default status. Not applicable for update-transaction!.
         self.status = None # str
         #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
@@ -98,6 +106,8 @@ class Input_transaction:
         self.invoice_number = None # str
         #Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss or yyyy-MM-dd'T'HH:mm:ss'Z' format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example.
         self.order_date = None # str
+        #External unique id. It is advised to use secure and random identifiers in this field.
+        self.external_unique_id = None # str
         #Free-form field for storing customer id.
         self.customer_id = None # str
         #Additional information about the transaction - for example if the evidence has been amended.
@@ -114,6 +124,8 @@ class Input_transaction:
         self.custom_id = None # str
         #Additional currency information - can be used to receive additional information about invoice in another currency.
         self.additional_currencies = None # additional_currencies
+        #Ship to address
+        self.ship_to_address = None # ship_to_address
         #Invoice place of issue.
         self.invoice_place = None # str
         #Tax country of residence evidence.

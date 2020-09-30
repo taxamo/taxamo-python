@@ -119,6 +119,114 @@ class ApiApi(object):
 
         
 
+    def cancelRefundBySubnumber(self, key, refund_note_subnumber, refund_key_or_refund_note_number, **kwargs):
+        """Cancel refund by subnumber
+
+        Args:
+            key, str: Transaction key. (required)
+
+            refund_note_subnumber, str: Refund note subnumber. (required)
+
+            refund_key_or_refund_note_number, str: Refund key or refund note number. (required)
+
+            
+
+        Returns: cancelRefundBySubnumberOut
+        """
+
+        allParams = ['key', 'refund_note_subnumber', 'refund_key_or_refund_note_number']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method cancelRefundBySubnumber" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/transactions/{key}/refunds/{refund_key_or_refund_note_number}/{refund_note_subnumber}'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'DELETE'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('key' in params):
+            replacement = str(self.apiClient.toPathValue(params['key']))
+            resourcePath = resourcePath.replace('{' + 'key' + '}',
+                                                replacement)
+        if ('refund_note_subnumber' in params):
+            replacement = str(self.apiClient.toPathValue(params['refund_note_subnumber']))
+            resourcePath = resourcePath.replace('{' + 'refund_note_subnumber' + '}',
+                                                replacement)
+        if ('refund_key_or_refund_note_number' in params):
+            replacement = str(self.apiClient.toPathValue(params['refund_key_or_refund_note_number']))
+            resourcePath = resourcePath.replace('{' + 'refund_key_or_refund_note_number' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'cancelRefundBySubnumberOut')
+        return responseObject
+        
+
+        
+
+    def cancelRefunds(self, key, refund_key_or_refund_note_number, **kwargs):
+        """Cancel refund or refunds
+
+        Args:
+            key, str: Transaction key. (required)
+
+            refund_key_or_refund_note_number, str: Refund key or refund note number. (required)
+
+            
+
+        Returns: cancelRefundsOut
+        """
+
+        allParams = ['key', 'refund_key_or_refund_note_number']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method cancelRefunds" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/transactions/{key}/refunds/{refund_key_or_refund_note_number}'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'DELETE'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('key' in params):
+            replacement = str(self.apiClient.toPathValue(params['key']))
+            resourcePath = resourcePath.replace('{' + 'key' + '}',
+                                                replacement)
+        if ('refund_key_or_refund_note_number' in params):
+            replacement = str(self.apiClient.toPathValue(params['refund_key_or_refund_note_number']))
+            resourcePath = resourcePath.replace('{' + 'refund_key_or_refund_note_number' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'cancelRefundsOut')
+        return responseObject
+        
+
+        
+
     def createPayment(self, key, body, **kwargs):
         """Register a payment
 
@@ -640,6 +748,8 @@ class ApiApi(object):
         """Browse transactions
 
         Args:
+            has_sub_account_id, bool: Only return transactions with sub_account_id set. (optional)
+
             filter_text, str: Filtering expression. Placeholder field, not supported yet. (optional)
 
             offset, integer: Offset (optional)
@@ -650,15 +760,25 @@ class ApiApi(object):
 
             currency_code, str: Three letter ISO currency code. (optional)
 
+            buyer_tax_number_not, str: Only return transactions without provided number or with a different buyer tax number. (optional)
+
             order_date_to, str: Order date to in yyyy-MM-dd format. (optional)
+
+            no_sub_account_id, bool: Only return transactions without sub_account_id set. (optional)
 
             sort_reverse, bool: If true, results are sorted in descending order. (optional)
 
             limit, integer: Limit (no more than 1000, defaults to 100). (optional)
 
+            buyer_tax_number, str: Only return transactions with a provided buyer tax number. (optional)
+
             invoice_number, str: Transaction invoice number. (optional)
 
             tax_country_codes, str: Comma separated list of two letter ISO tax country codes. (optional)
+
+            product_classes, str: Only return transactions with a provided product classes (optional)
+
+            external_unique_id, str: Search by the external unique id (optional)
 
             statuses, str: Comma separated list of of transaction statuses. 'N' - unconfirmed transaction, 'C' - confirmed transaction. (optional)
 
@@ -679,7 +799,7 @@ class ApiApi(object):
         Returns: listTransactionsOut
         """
 
-        allParams = ['filter_text', 'offset', 'has_note', 'key_or_custom_id', 'currency_code', 'order_date_to', 'sort_reverse', 'limit', 'invoice_number', 'tax_country_codes', 'statuses', 'original_transaction_key', 'order_date_from', 'total_amount_greater_than', 'format', 'total_amount_less_than', 'tax_country_code']
+        allParams = ['has_sub_account_id', 'filter_text', 'offset', 'has_note', 'key_or_custom_id', 'currency_code', 'buyer_tax_number_not', 'order_date_to', 'no_sub_account_id', 'sort_reverse', 'limit', 'buyer_tax_number', 'invoice_number', 'tax_country_codes', 'product_classes', 'external_unique_id', 'statuses', 'original_transaction_key', 'order_date_from', 'total_amount_greater_than', 'format', 'total_amount_less_than', 'tax_country_code']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -695,6 +815,8 @@ class ApiApi(object):
         queryParams = {}
         headerParams = {}
 
+        if ('has_sub_account_id' in params):
+            queryParams['has_sub_account_id'] = self.apiClient.toPathValue(params['has_sub_account_id'])
         if ('filter_text' in params):
             queryParams['filter_text'] = self.apiClient.toPathValue(params['filter_text'])
         if ('offset' in params):
@@ -705,16 +827,26 @@ class ApiApi(object):
             queryParams['key_or_custom_id'] = self.apiClient.toPathValue(params['key_or_custom_id'])
         if ('currency_code' in params):
             queryParams['currency_code'] = self.apiClient.toPathValue(params['currency_code'])
+        if ('buyer_tax_number_not' in params):
+            queryParams['buyer_tax_number_not'] = self.apiClient.toPathValue(params['buyer_tax_number_not'])
         if ('order_date_to' in params):
             queryParams['order_date_to'] = self.apiClient.toPathValue(params['order_date_to'])
+        if ('no_sub_account_id' in params):
+            queryParams['no_sub_account_id'] = self.apiClient.toPathValue(params['no_sub_account_id'])
         if ('sort_reverse' in params):
             queryParams['sort_reverse'] = self.apiClient.toPathValue(params['sort_reverse'])
         if ('limit' in params):
             queryParams['limit'] = self.apiClient.toPathValue(params['limit'])
+        if ('buyer_tax_number' in params):
+            queryParams['buyer_tax_number'] = self.apiClient.toPathValue(params['buyer_tax_number'])
         if ('invoice_number' in params):
             queryParams['invoice_number'] = self.apiClient.toPathValue(params['invoice_number'])
         if ('tax_country_codes' in params):
             queryParams['tax_country_codes'] = self.apiClient.toPathValue(params['tax_country_codes'])
+        if ('product_classes' in params):
+            queryParams['product_classes'] = self.apiClient.toPathValue(params['product_classes'])
+        if ('external_unique_id' in params):
+            queryParams['external_unique_id'] = self.apiClient.toPathValue(params['external_unique_id'])
         if ('statuses' in params):
             queryParams['statuses'] = self.apiClient.toPathValue(params['statuses'])
         if ('original_transaction_key' in params):
@@ -1126,6 +1258,114 @@ class ApiApi(object):
 
         
 
+    def getSalesStatsByCountry(self, date_from, date_to, **kwargs):
+        """Sales stats by country
+
+        Args:
+            global_currency_code, str: Global currency code to use for conversion - in addition to country's currency if rate is available. Conversion is indicative and based on most-recent rate from ECB. (optional)
+
+            date_from, str: Date from in yyyy-MM-dd format. (required)
+
+            date_to, str: Date to in yyyy-MM-dd format. (required)
+
+            
+
+        Returns: getSalesStatsByCountryOut
+        """
+
+        allParams = ['global_currency_code', 'date_from', 'date_to']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method getSalesStatsByCountry" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/stats/sales/by_country'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('global_currency_code' in params):
+            queryParams['global_currency_code'] = self.apiClient.toPathValue(params['global_currency_code'])
+        if ('date_from' in params):
+            queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
+        if ('date_to' in params):
+            queryParams['date_to'] = self.apiClient.toPathValue(params['date_to'])
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'getSalesStatsByCountryOut')
+        return responseObject
+        
+
+        
+
+    def getSalesStatsForCountry(self, date_from, date_to, country_code, **kwargs):
+        """Sales stats by country
+
+        Args:
+            global_currency_code, str: Global currency code to use for conversion - in addition to country's currency if rate is available. Conversion is indicative and based on most-recent rate from ECB. (optional)
+
+            date_from, str: Date from in yyyy-MM-dd format. (required)
+
+            date_to, str: Date to in yyyy-MM-dd format. (required)
+
+            country_code, str: Country code (optional)
+
+            
+
+        Returns: getSalesStatsForCountryOut
+        """
+
+        allParams = ['global_currency_code', 'date_from', 'date_to', 'country_code']
+
+        params = locals()
+        for (key, val) in params['kwargs'].iteritems():
+            if key not in allParams:
+                raise TypeError("Got an unexpected keyword argument '%s' to method getSalesStatsForCountry" % key)
+            params[key] = val
+        del params['kwargs']
+
+        resourcePath = '/api/v1/stats/sales/by_country/{country_code}'
+        resourcePath = resourcePath.replace('{format}', 'json')
+        method = 'GET'
+
+        queryParams = {}
+        headerParams = {}
+
+        if ('global_currency_code' in params):
+            queryParams['global_currency_code'] = self.apiClient.toPathValue(params['global_currency_code'])
+        if ('date_from' in params):
+            queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
+        if ('date_to' in params):
+            queryParams['date_to'] = self.apiClient.toPathValue(params['date_to'])
+        if ('country_code' in params):
+            replacement = str(self.apiClient.toPathValue(params['country_code']))
+            resourcePath = resourcePath.replace('{' + 'country_code' + '}',
+                                                replacement)
+        postData = (params['body'] if 'body' in params else None)
+
+        response = self.apiClient.callAPI(resourcePath, method, queryParams,
+                                          postData, headerParams)
+
+        if not response:
+            return None
+
+        responseObject = self.apiClient.deserialize(response, 'getSalesStatsForCountryOut')
+        return responseObject
+        
+
+        
+
     def getTransactionsStats(self, date_from, date_to, **kwargs):
         """Transaction stats
 
@@ -1476,6 +1716,8 @@ class ApiApi(object):
 
             date_to, str: Take only refunds issued at or before the date. Format: yyyy-MM-dd (optional)
 
+            custom_fields, str: Comma separated list of custom fields (optional)
+
             limit, number: Limit (no more than 1000, defaults to 100). (optional)
 
             offset, number: Offset. Defaults to 0 (optional)
@@ -1485,7 +1727,7 @@ class ApiApi(object):
         Returns: getDetailedRefundsOut
         """
 
-        allParams = ['format', 'country_codes', 'date_from', 'date_to', 'limit', 'offset']
+        allParams = ['format', 'country_codes', 'date_from', 'date_to', 'custom_fields', 'limit', 'offset']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1509,6 +1751,8 @@ class ApiApi(object):
             queryParams['date_from'] = self.apiClient.toPathValue(params['date_from'])
         if ('date_to' in params):
             queryParams['date_to'] = self.apiClient.toPathValue(params['date_to'])
+        if ('custom_fields' in params):
+            queryParams['custom_fields'] = self.apiClient.toPathValue(params['custom_fields'])
         if ('limit' in params):
             queryParams['limit'] = self.apiClient.toPathValue(params['limit'])
         if ('offset' in params):
@@ -1600,6 +1844,8 @@ class ApiApi(object):
 
             moss_country_code, str: MOSS country code, used to determine currency/region. If ommited, merchant default setting is used. Deprecated: please use tax-country-code. (optional)
 
+            period, str: Name of period used in csv export with report parameters included (optional)
+
             format, str: Output format. 'csv' value is accepted as well (optional)
 
             tax_country_code, str: Tax entity country code, used to determine currency/region.  (optional)
@@ -1611,7 +1857,7 @@ class ApiApi(object):
         Returns: getSettlementOut
         """
 
-        allParams = ['moss_tax_id', 'currency_code', 'end_month', 'tax_id', 'refund_date_kind_override', 'start_month', 'moss_country_code', 'format', 'tax_country_code', 'quarter']
+        allParams = ['moss_tax_id', 'currency_code', 'end_month', 'tax_id', 'refund_date_kind_override', 'start_month', 'moss_country_code', 'period', 'format', 'tax_country_code', 'quarter']
 
         params = locals()
         for (key, val) in params['kwargs'].iteritems():
@@ -1641,6 +1887,8 @@ class ApiApi(object):
             queryParams['start_month'] = self.apiClient.toPathValue(params['start_month'])
         if ('moss_country_code' in params):
             queryParams['moss_country_code'] = self.apiClient.toPathValue(params['moss_country_code'])
+        if ('period' in params):
+            queryParams['period'] = self.apiClient.toPathValue(params['period'])
         if ('format' in params):
             queryParams['format'] = self.apiClient.toPathValue(params['format'])
         if ('tax_country_code' in params):

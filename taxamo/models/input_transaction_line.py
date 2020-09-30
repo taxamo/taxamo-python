@@ -29,15 +29,20 @@ class Input_transaction_line:
             'quantity': 'number',
             'custom_fields': 'list[custom_fields]',
             'line_key': 'str',
+            'invoice_number': 'str',
+            'product_class': 'str',
             'tax_name': 'str',
             'product_code': 'str',
             'amount': 'number',
             'custom_id': 'str',
             'informative': 'bool',
+            'ship_from_country_code': 'str',
             'tax_rate': 'number',
             'total_amount': 'number',
             'product_tax_code': 'str',
-            'description': 'str'
+            'description': 'str',
+            'tax_deducted': 'bool',
+            'tax_country_code': 'str'
 
         }
 
@@ -58,6 +63,10 @@ class Input_transaction_line:
         self.custom_fields = None # list[custom_fields]
         #Generated line key.
         self.line_key = None # str
+        #Invoice number.
+        self.invoice_number = None # str
+        #Product class
+        self.product_class = None # str
         #Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
         self.tax_name = None # str
         #Internal product code, used for invoicing for example.
@@ -68,6 +77,8 @@ class Input_transaction_line:
         self.custom_id = None # str
         #If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
         self.informative = None # bool
+        #Two-letter ISO country code, e.g. FR.
+        self.ship_from_country_code = None # str
         #Tax rate, calculated by taxamo. Must be provided when informative field is true.
         self.tax_rate = None # number
         #Total amount. Required if amount or both unit price and quantity are not provided.
@@ -76,4 +87,8 @@ class Input_transaction_line:
         self.product_tax_code = None # str
         #Line contents description.
         self.description = None # str
+        #True if the transaction line is deducted from tax and no tax is applied (it is untaxed).
+        self.tax_deducted = None # bool
+        #Two-letter ISO country code, e.g. FR.
+        self.tax_country_code = None # str
         

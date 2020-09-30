@@ -21,10 +21,13 @@ class Refunds:
 
     def __init__(self):
         self.swaggerTypes = {
+            'refund_unique_id': 'str',
             'refund_note_url': 'str',
             'refund_note_number': 'str',
+            'refund_key': 'str',
             'line_key': 'str',
             'refund_timestamp': 'str',
+            'refund_note_number_expanded': 'str',
             'amount': 'number',
             'informative': 'bool',
             'tax_amount': 'number',
@@ -35,14 +38,20 @@ class Refunds:
         }
 
 
+        #Refund custom identifier.
+        self.refund_unique_id = None # str
         #Refund note image url.
         self.refund_note_url = None # str
         #Sequential refund note number.
         self.refund_note_number = None # str
-        #Line identifier. If neither line key or custom id is provided, the refund amount will be assigned to lines in order.
+        #Refund identifier.
+        self.refund_key = None # str
+        #Line identifier.
         self.line_key = None # str
         #Refund timestamp in UTC timezone.
         self.refund_timestamp = None # str
+        #Refund note number with CN-{{invoice-number}}-{{refund-number}} pattern.
+        self.refund_note_number_expanded = None # str
         #Amount, excluding tax, that was refunded.
         self.amount = None # number
         #Was this refund applied to an informative line?
