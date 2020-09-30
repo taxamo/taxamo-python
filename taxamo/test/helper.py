@@ -17,6 +17,10 @@ TEST_TOKEN='SamplePrivateTestKey1'
 TEST_ADDRESS='https://api.taxamo.com'
 #TEST_ADDRESS='http://localhost:3007'
 
+TEST_SERVER_PROTOCOL = 'http://'
+TEST_SERVER_HOST = 'localhost'
+TEST_SERVER_PORT = 8111
+
 import taxamo.swagger
 import taxamo.api
 import unittest
