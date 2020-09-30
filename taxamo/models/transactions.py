@@ -22,8 +22,10 @@ class Transactions:
     def __init__(self):
         self.swaggerTypes = {
             'confirm_timestamp': 'str',
+            'einvoicing_provider': 'str',
             'fully_informative': 'bool',
             'deducted_tax_amount': 'number',
+            'payment_address': 'payment_address',
             'order_date_type': 'str',
             'buyer_credit_card_prefix': 'str',
             'custom_data': 'str',
@@ -48,12 +50,18 @@ class Transactions:
             'transaction_lines': 'list[transaction_lines]',
             'buyer_tax_number': 'str',
             'external_key': 'str',
+            'additional_interactions': 'list[additional_interactions]',
             'status': 'str',
             'custom_fields': 'list[custom_fields]',
+            'shipment_country_data': 'shipment_country_data',
             'force_country_code': 'str',
             'countries': 'countries',
             'invoice_number': 'str',
+            'tax_country_codes': 'str',
+            'tax_engine': 'str',
+            'product_classes': 'str',
             'order_date': 'str',
+            'external_unique_id': 'str',
             'customer_id': 'str',
             'kind': 'str',
             'source': 'str',
@@ -63,11 +71,13 @@ class Transactions:
             'buyer_email': 'str',
             'original_transaction_key': 'str',
             'billing_country_code': 'str',
+            'invoice_image_url_secret': 'str',
             'custom_id': 'str',
             'tax_amount': 'number',
             'tax_entity_additional_id': 'str',
             'warnings': 'list[warnings]',
             'additional_currencies': 'additional_currencies',
+            'ship_to_address': 'ship_to_address',
             'invoice_place': 'str',
             'total_amount': 'number',
             'tax_entity_name': 'str',
@@ -86,10 +96,14 @@ class Transactions:
 
         #Date and time of transaction confirmation.
         self.confirm_timestamp = None # str
+        #EInvoicing provider - provided by Taxamo
+        self.einvoicing_provider = None # str
         #Set to true if transaction has only informative lines.
         self.fully_informative = None # bool
         #How much tax has been deducted.
         self.deducted_tax_amount = None # number
+        #Payment address.
+        self.payment_address = None # payment_address
         #'timestamp' means that an order date was captured with a full timestamp and can be applied to an FX source which distinguishes time of the day. Empty value or 'day' means that only day information is present.
         self.order_date_type = None # str
         #First 6 digits of buyer's credit card prefix.
@@ -118,7 +132,7 @@ class Transactions:
         self.buyer_tax_number_format_valid = None # bool
         #Tax number service identifier - if available for a given region and the region is enabled.
         self.tax_number_service = None # str
-        #Control flags, stored as key-value pairs.
+        #Control flags, stored as key-value string pairs. Possible flags (keys): &quot;b2b-number-service-timeoutms&quot;, &quot;b2b-number-service-expiry-days&quot;, &quot;b2b-number-service-on-error&quot; (value &quot;accept&quot;). Region code can be appended to all of the keys, e.g. &quot;b2b-number-service-timeoutms-EU&quot;. 
         self.control_flags = None # list[control_flags]
         #Invoice address.
         self.invoice_address = None # invoice_address
@@ -138,18 +152,30 @@ class Transactions:
         self.buyer_tax_number = None # str
         #Transaction external key
         self.external_key = None # str
+        #Information about additional interactions necessary/available.
+        self.additional_interactions = None # list[additional_interactions]
         #Transaction status: 'N' - new, 'C' - confirmed. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default status. Not applicable for update-transaction!.
         self.status = None # str
         #Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
         self.custom_fields = None # list[custom_fields]
+        #Shipment country data
+        self.shipment_country_data = None # shipment_country_data
         #Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation.
         self.force_country_code = None # str
         #Map of countries calculated from evidence provided. This value is not stored and is available only upon tax calculation.
         self.countries = None # countries
         #Invoice number.
         self.invoice_number = None # str
+        #Comma separated list of tax country codes
+        self.tax_country_codes = None # str
+        #Tax engine used for the calculaation
+        self.tax_engine = None # str
+        #Product classes present in this transaction
+        self.product_classes = None # str
         #Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss or yyyy-MM-dd'T'HH:mm:ss'Z' format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example.
         self.order_date = None # str
+        #External unique id. It is advised to use secure and random identifiers in this field.
+        self.external_unique_id = None # str
         #Free-form field for storing customer id.
         self.customer_id = None # str
         #Transaction kind: eu-b2c, eu-b2b, domestic, untaxed
@@ -168,6 +194,8 @@ class Transactions:
         self.original_transaction_key = None # str
         #Billing two letter ISO country code.
         self.billing_country_code = None # str
+        #Invoice image URL secret - provided by Taxamo.
+        self.invoice_image_url_secret = None # str
         #Custom identifier provided upon transaction creation.
         self.custom_id = None # str
         #Tax amount of transaction.
@@ -178,6 +206,8 @@ class Transactions:
         self.warnings = None # list[warnings]
         #Additional currency information - can be used to receive additional information about invoice in another currency.
         self.additional_currencies = None # additional_currencies
+        #Ship to address
+        self.ship_to_address = None # ship_to_address
         #Invoice place of issue.
         self.invoice_place = None # str
         #Total amount of transaction.

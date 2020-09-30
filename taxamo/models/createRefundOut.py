@@ -24,7 +24,11 @@ class CreateRefundOut:
             'total_amount': 'number',
             'tax_amount': 'number',
             'refunded_total_amount': 'number',
-            'refunded_tax_amount': 'number'
+            'refunded_tax_amount': 'number',
+            'refund_note_number': 'str',
+            'refund_note_number_expanded': 'str',
+            'refund_key': 'str',
+            'refund_unique_id': 'str'
 
         }
 
@@ -37,4 +41,12 @@ class CreateRefundOut:
         self.refunded_total_amount = None # number
         #Total tax amount, that was refunded for this line.
         self.refunded_tax_amount = None # number
+        #Sequential refund note number.
+        self.refund_note_number = None # str
+        #Refund note number with CN-{{invoice-number}}-{{refund-number}} pattern.
+        self.refund_note_number_expanded = None # str
+        #Refund identifier.
+        self.refund_key = None # str
+        #Refund custom identifier.
+        self.refund_unique_id = None # str
         
