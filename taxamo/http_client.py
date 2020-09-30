@@ -65,7 +65,7 @@ else:
                 '"requests" library is version %s. Taxamo will fall back to '
                 'an alternate HTTP library so everything should work. We '
                 'recommend upgrading your "requests" library. If you have any '
-                'questions, please contact support@Taxamo.com. (HINT: running '
+                'questions, please contact support@taxamo.com. (HINT: running '
                 '"pip install -U requests" should upgrade your requests '
                 'library to the latest version.)' % (version,))
             requests = None
@@ -214,16 +214,16 @@ class RequestsClient(HTTPClient):
 #             msg = ("The Taxamo library attempted to fetch an "
 #                    "invalid URL (%r). This is likely due to a bug "
 #                    "in the Taxamo Python bindings. Please let us know "
-#                    "at support@Taxamo.com." % (url,))
+#                    "at support@taxamo.com." % (url,))
 #         elif isinstance(e, urlfetch.DownloadError):
 #             msg = "There was a problem retrieving data from Taxamo."
 #         elif isinstance(e, urlfetch.ResponseTooLargeError):
 #             msg = ("There was a problem receiving all of your data from "
 #                    "Taxamo.  This is likely due to a bug in Taxamo. "
-#                    "Please let us know at support@Taxamo.com.")
+#                    "Please let us know at support@taxamo.com.")
 #         else:
 #             msg = ("Unexpected error communicating with Taxamo. If this "
-#                    "problem persists, let us know at support@Taxamo.com.")
+#                    "problem persists, let us know at support@taxamo.com.")
 #
 #         msg = textwrap.fill(msg) + "\n\n(Network error: " + str(e) + ")"
 #         raise error.APIConnectionError(msg)
@@ -275,16 +275,16 @@ class RequestsClient(HTTPClient):
 #                    "internet connection and try again.  If this problem "
 #                    "persists, you should check Taxamo's service status at "
 #                    "https://twitter.com/Taxamostatus, or let us know at "
-#                    "support@Taxamo.com.")
+#                    "support@taxamo.com.")
 #         elif (e[0] in [pycurl.E_SSL_CACERT,
 #                        pycurl.E_SSL_PEER_CERTIFICATE]):
 #             msg = ("Could not verify Taxamo's SSL certificate.  Please make "
 #                    "sure that your network is not intercepting certificates.  "
 #                    "If this problem persists, let us know at "
-#                    "support@Taxamo.com.")
+#                    "support@taxamo.com.")
 #         else:
 #             msg = ("Unexpected error communicating with Taxamo. If this "
-#                    "problem persists, let us know at support@Taxamo.com.")
+#                    "problem persists, let us know at support@taxamo.com.")
 #
 #         msg = textwrap.fill(msg) + "\n\n(Network error: " + e[1] + ")"
 #         raise error.APIConnectionError(msg)
