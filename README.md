@@ -274,4 +274,9 @@ PUBLISHABLE_KEY=pk_test_wlmUwh5iKQSAaesWKFrQX7oj SECRET_KEY=sk_test_F1lO6aFaLncu
 
 ## Testing
 
-We commit to being compatible with Python 2.6+, Python 3.1+ and PyPy.  We need to test against all of these environments to ensure compatibility. 
+We commit to being compatible with Python 2.7+, Python 3.1+ and PyPy.  We need to test against all of these environments to ensure compatibility.
+
+```bash
+docker build -t taxamo-python-tox .
+docker run --rm -it --name my-tox-app -v "$PWD:/code" -w /code taxamo-python-tox tox
+``` 
