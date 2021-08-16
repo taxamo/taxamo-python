@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2014-2020 by Taxamo
+Copyright 2014-2021 by Taxamo
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ class Input_transaction:
             'order_date': 'str',
             'external_unique_id': 'str',
             'customer_id': 'str',
+            'buyer_tax_numbers': 'list[buyer_tax_number_schema]',
             'comments': 'str',
             'buyer_ip': 'str',
             'buyer_email': 'str',
@@ -110,6 +111,8 @@ class Input_transaction:
         self.external_unique_id = None # str
         #Free-form field for storing customer id.
         self.customer_id = None # str
+        #Buyer's tax numbers
+        self.buyer_tax_numbers = None # list[buyer_tax_number_schema]
         #Additional information about the transaction - for example if the evidence has been amended.
         self.comments = None # str
         #IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).

@@ -1,5 +1,5 @@
 """
-Copyright 2014-2020 by Taxamo
+Copyright 2014-2021 by Taxamo
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -124,6 +124,29 @@ class TaxamoTaxApiTest(TaxamoTest):
         self.assertEqual(resp.transaction.warnings[0].type, 'vies-error')
         self.assertIn(resp.transaction.warnings[0].message, ['Read timed out', 'Network is unreachable (connect failed)'])
         self.assertEqual(resp.transaction.note, 'b2b_error_accept')
+
+
+        print resp.transaction
+
+    def test_calculate_with_buyer_tax_numbers(self):
+        resp = self.api.calculateTax(
+            {
+                'transaction': {
+                    'currency_code': 'USD',
+                    'billing_country_code': 'CA',
+                    'force_country_code': 'CA',
+                    'invoice_address': {'region': 'AB'},
+                    'transaction_lines': [{'amount': 200,
+                                           'custom_id': 'line1'},
+                                          {'amount': 100,
+                                           'product_type': 'e-book',
+                                           'custom_id': 'line2'}],
+                    'buyer_tax_numbers': [{'buyer_tax_number': '123456789'},
+                                          {'buyer_tax_number': '123456781'}]
+                }})
+        self.assertEqual(resp.transaction.tax_country_code, "CA")
+        self.assertEqual(resp.transaction.buyer_tax_numbers[0].buyer_tax_number, '123456789')
+        self.assertEqual(resp.transaction.buyer_tax_numbers[1].buyer_tax_number, '123456781')
 
 
         print resp.transaction
