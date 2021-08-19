@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2014-2020 by Taxamo
+Copyright 2014-2021 by Taxamo
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ class Input_transaction_line:
 
         #Product type, according to dictionary /dictionaries/product_types. 
         self.product_type = None # str
-        #Deducted tax rate, calculated by taxamo.
+        #Deducted tax rate, calculated by Taxamo.
         self.deducted_tax_rate = None # number
         #Date of supply in yyyy-MM-dd format.
         self.supply_date = None # str
@@ -67,7 +67,7 @@ class Input_transaction_line:
         self.invoice_number = None # str
         #Product class
         self.product_class = None # str
-        #Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
+        #Tax name, calculated by Taxamo.  Can be overwritten when informative field is true.
         self.tax_name = None # str
         #Internal product code, used for invoicing for example.
         self.product_code = None # str
@@ -79,7 +79,7 @@ class Input_transaction_line:
         self.informative = None # bool
         #Two-letter ISO country code, e.g. FR.
         self.ship_from_country_code = None # str
-        #Tax rate, calculated by taxamo. Must be provided when informative field is true.
+        #Tax rate, calculated by Taxamo. Must be provided when informative field is true.
         self.tax_rate = None # number
         #Total amount. Required if amount or both unit price and quantity are not provided.
         self.total_amount = None # number

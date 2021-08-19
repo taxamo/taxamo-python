@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2014-2020 by Taxamo
+Copyright 2014-2021 by Taxamo
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ class Input_transaction_update:
             'verification_token': 'str',
             'note': 'str',
             'tax_data': 'tax_data_schema',
-            'transaction_lines': 'list[input_transaction_line]',
+            'transaction_lines': 'list[input_transaction_update_line]',
             'buyer_tax_number': 'str',
             'additional_interactions': 'list[additional_interactions]',
             'status': 'str',
@@ -45,6 +45,7 @@ class Input_transaction_update:
             'order_date': 'str',
             'external_unique_id': 'str',
             'customer_id': 'str',
+            'buyer_tax_numbers': 'list[buyer_tax_number_schema]',
             'comments': 'str',
             'buyer_ip': 'str',
             'buyer_email': 'str',
@@ -91,7 +92,7 @@ class Input_transaction_update:
         #Tax additional information - e.g. US sales tax exemption certificate data.
         self.tax_data = None # tax_data_schema
         #Transaction lines.
-        self.transaction_lines = None # list[input_transaction_line]
+        self.transaction_lines = None # list[input_transaction_update_line]
         # Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
         self.buyer_tax_number = None # str
         #Information about additional interactions necessary/available.
@@ -110,6 +111,8 @@ class Input_transaction_update:
         self.external_unique_id = None # str
         #Free-form field for storing customer id.
         self.customer_id = None # str
+        #Buyer's tax numbers
+        self.buyer_tax_numbers = None # list[buyer_tax_number_schema]
         #Additional information about the transaction - for example if the evidence has been amended.
         self.comments = None # str
         #IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).

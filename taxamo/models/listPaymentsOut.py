@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2014-2020 by Taxamo
+Copyright 2014-2021 by Taxamo
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -21,11 +21,11 @@ class ListPaymentsOut:
 
     def __init__(self):
         self.swaggerTypes = {
-            'payments': 'list[payments]'
+            'payments': 'list[payment_schema]'
 
         }
 
 
         #Payments.
-        self.payments = None # list[payments]
+        self.payments = None # list[payment_schema]
         

@@ -1,5 +1,5 @@
 """
-Copyright 2014-2020 by Taxamo
+Copyright 2014-2021 by Taxamo
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -261,6 +261,37 @@ class TaxamoTransactionsApiTest(TaxamoTest):
         self.assertEqual(resp.transactions[0].custom_fields[2].value, 'test63')
         self.assertEqual(resp.transactions[0].transaction_lines[0].custom_fields[1].value, 'test43')
         self.assertEqual(resp.transactions[0].transaction_lines[1].custom_fields[1].value, 'test83')
+
+    def test_update_transaction_using_Input_transaction_line_model(self):
+        resp = self.api.createTransaction(
+            {'transaction': {
+                'currency_code': 'USD',
+                'buyer_ip': '127.0.0.1',
+                'billing_country_code': 'IE',
+                'force_country_code': 'FR',
+                'order_date': '2014-06-01',
+                'transaction_lines': [{'amount': 40,
+                                       'custom_id': 'line1'}]
+            }})
+        self.assertFalse(resp.transaction.key is None)
+        self.assertEqual(resp.transaction.status, 'N')
+        self.assertEqual(resp.transaction.transaction_lines[0].amount, 40)
+
+        from taxamo.models.updateTransactionIn import UpdateTransactionIn
+        from taxamo.models.input_transaction_line import Input_transaction_line
+
+        line = Input_transaction_line()
+        line.custom_id = 'line1'
+        line.amount = 30
+
+        transaction = UpdateTransactionIn()
+        transaction.transaction = {'transaction_lines': [line]}
+
+        resp = self.api.updateTransaction(resp.transaction.key, transaction)
+
+        self.assertFalse(resp.transaction.key is None)
+        self.assertEqual(resp.transaction.status, 'N')
+        self.assertEqual(resp.transaction.transaction_lines[0].amount, 30)
 
 
 
